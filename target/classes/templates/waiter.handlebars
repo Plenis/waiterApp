@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-{{> header.handlebars}}
+{{> header.handlebars}} {{username}}
 <head>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 </head>
@@ -14,8 +14,10 @@
 
     <div class="main">
         <div class="col-md-6 col-sm-12">
-                <form method="get" action="/waiter">
+                <form method="post" action="/waiter/:username">
                     <div class="form-group">
+                        <h5>Hello: {{firstName}} {{lastName}} </h5>
+
                        <label>Choose 3 days to work, this weeek: </label>
 
                         <div class="form-check">
@@ -66,18 +68,22 @@
                                 Saturday
                             </label>
                         </div>
-
+                        <br>
                     <button type="submit" class="btn btn-secondary">Confirm</button>
                     </div>
                 </form>
         </div>
 
-        <form>
+        <form method="post" action="/waiter/:username">
             <div>
                 <div class="col-6">
                     <h2>The days you are working:</h2>
 
-                    <label>days working display here</label>
+                    <label>{{days}}</label>
+
+                    <br>
+                    <button type="submit" class="btn btn-secondary">Update</button>
+
                 </div>
             </div>
         </form>
