@@ -1,4 +1,4 @@
-package net.waiter;
+package net.webapp;
 
 public class WaiterAvailability {
 

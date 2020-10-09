@@ -1,4 +1,4 @@
-package net.waiter;
+package net.webapp;
 
 import org.jdbi.v3.core.Jdbi;
 import spark.ModelAndView;
@@ -8,7 +8,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -57,16 +56,22 @@ public class App {
             Map<String, Object> waiter = new HashMap<>();
 
         get("/", (request, response) -> {
+//            String firstname = request.queryParams("firstname");
 
-            Map<String, Object> map = new HashMap<>();
-            return new ModelAndView(map, "login.handlebars");
+//            waiter.get(firstname);
+
+            return new ModelAndView(waiter, "register.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
+
         get("/waiters/:username", (request, response) -> {
-            String firstName = request.queryParams("firstName");
-            String lastName = request.queryParams("lastName");
+            String firstName = request.queryParams("firstname");
+            String lastName = request.queryParams("lastname");
             String username = request.queryParams("username");
+
+            System.out.println("get: "+firstName);
+            System.out.println("get: "+lastName);
 
             waiter.get(firstName);
             waiter.get(lastName);
@@ -78,12 +83,15 @@ public class App {
 
         post("/waiters/:username", (request, response) -> {
 
-            String firstName = request.queryParams("firstName");
-            String lastName = request.queryParams("lastName");
+            String firstName = request.queryParams("firstname");
+            String lastName = request.queryParams("lastname");
             String username = request.queryParams("username");
 
-            waiter.put(firstName, "firstName");
-            waiter.put(lastName, "lastName");
+            System.out.println(firstName);
+            System.out.println(lastName);
+
+            waiter.put(firstName, "firstname");
+            waiter.put(lastName, "lastname");
             waiter.put(username, "username");
 
             return new ModelAndView(waiter, "waiter.handlebars");
@@ -95,41 +103,6 @@ public class App {
             return new ModelAndView(map, "admin.handlebars");
 
         }, new HandlebarsTemplateEngine());
-
-        get("/register", (request, response) -> {
-            Map<String, Object> map = new HashMap<>();
-            return new ModelAndView(map, "register.handlebars");
-
-        }, new HandlebarsTemplateEngine());
-//
-//        get("/waiter", (request, response) -> {
-//
-//            List<UserLogin> userLogins = jdbi.withHandle((h) -> {
-//                List<UserLogin> userLoginList = h.createQuery("select firstname, lastname, username from users")
-//                        .mapToBean(UserLogin.class)
-//                        .list();
-//                return userLoginList;
-//            });
-//
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("userLogins", userLogins);
-//            return new ModelAndView(map, "waiter.handlebars");
-//
-//        }, new HandlebarsTemplateEngine());
-//
-//
-//        post("/waiter", (request, response) -> {
-//
-//            String username = request.queryParams("username");
-//
-//            jdbi.useHandle(h -> {
-//                h.execute("insert into users (firstname, lastname, username, password) values (?, ?, ?)",
-//                        username);
-//            });
-//
-//            response.redirect("/waiter");
-//            return "";
-//        });
 
         } catch (URISyntaxException e) {
             e.printStackTrace();

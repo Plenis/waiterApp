@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-{{> header.handlebars}} {{username}}
+{{> header.handlebars}}
 <head>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 </head>
@@ -10,87 +10,184 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-<div>
-
-    <div class="main">
-        <div class="col-md-6 col-sm-12">
-                <form method="post" action="/waiter/:username">
-                    <div class="form-group">
-                        <h5>Hello: {{firstName}} {{lastName}} </h5>
-
-                       <label>Choose 3 days to work, this weeek: </label>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="sun">
-                            <label class="form-check-label" for="sun">
-                                Sunday
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="mon">
-                            <label class="form-check-label" for="mon">
-                                Monday
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="tue">
-                            <label class="form-check-label" for="tue">
-                                Tuesday
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="wed">
-                            <label class="form-check-label" for="wed">
-                                Wednesday
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="thurs">
-                            <label class="form-check-label" for="thurs">
-                                Thursday
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="fri">
-                            <label class="form-check-label" for="fri">
-                                Friday
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="sat">
-                            <label class="form-check-label" for="sat">
-                                Saturday
-                            </label>
-                        </div>
-                        <br>
-                    <button type="submit" class="btn btn-secondary">Confirm</button>
-                    </div>
-                </form>
-        </div>
-
-        <form method="post" action="/waiter/:username">
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <form action="/waiters/:username" method="get">
             <div>
-                <div class="col-6">
-                    <h2>The days you are working:</h2>
-
-                    <label>{{days}}</label>
-
-                    <br>
-                    <button type="submit" class="btn btn-secondary">Update</button>
-
-                </div>
+                <ul>
+                    {{#each waiter}}
+                        <li>{{firstname}}</li>
+                    {{/each}}
+                </ul>
             </div>
+            </form>
+        </div>
+        <div class="col-sm">
+            <form method="get" action="/days">
+            <div class="form-check">
+
+                <label> Choose ONLY 3 days to work this week:</label>
+                <br>
+                <input class="form-check-input" type="checkbox" value="" id="sun">
+                <label class="form-check-label" for="sun">
+                    Sunday
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="mon">
+                <label class="form-check-label" for="mon">
+                    Monday
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="tue">
+                <label class="form-check-label" for="tue">
+                    Tuesday
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="wed">
+                <label class="form-check-label" for="wed">
+                    Wednesday
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="thurs">
+                <label class="form-check-label" for="thurs">
+                    Thursday
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="fri">
+                <label class="form-check-label" for="fri">
+                    Friday
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="sat">
+                <label class="form-check-label" for="sat">
+                    Saturday
+                </label>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-secondary">Confirm</button>
         </form>
+        </div>
+        <div class="col-sm">
+            <form method="get" action="/days">
+                <div>
+                    <div class="col-md-6 col-sm-12">
+                        <h2>The days you are working:</h2>
 
+                        <ul>
+                            {{days}}
+                        </ul>
 
+                        <br>
+                        <button type="submit" class="btn btn-secondary">Update</button>
+
+                    </div>
+                </div>
+            </form>        </div>
     </div>
-
 </div>
+
+<!--<div>-->
+
+<!--    <div class="main">-->
+
+<!--        <div class="col-md-6 col-sm-12">-->
+
+
+<!--        </div>-->
+
+<!--        <div class="col-md-6 col-sm-12">-->
+<!--                <form method="get" action="/waiter/:username">-->
+<!--                    <div class="form-group">-->
+<!--                        <h5>Hello: {{firstname}}  {{lastname}} </h5>-->
+
+<!--                       <label>Choose 3 days to work, this weeek: </label>-->
+<!--                    </div>-->
+<!--                </form>-->
+
+<!--            <form method="get" action="/days">-->
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" value="" id="sun">-->
+<!--                            <label class="form-check-label" for="sun">-->
+<!--                                Sunday-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" value="" id="mon">-->
+<!--                            <label class="form-check-label" for="mon">-->
+<!--                                Monday-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" value="" id="tue">-->
+<!--                            <label class="form-check-label" for="tue">-->
+<!--                                Tuesday-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" value="" id="wed">-->
+<!--                            <label class="form-check-label" for="wed">-->
+<!--                                Wednesday-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" value="" id="thurs">-->
+<!--                            <label class="form-check-label" for="thurs">-->
+<!--                                Thursday-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" value="" id="fri">-->
+<!--                            <label class="form-check-label" for="fri">-->
+<!--                                Friday-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" value="" id="sat">-->
+<!--                            <label class="form-check-label" for="sat">-->
+<!--                                Saturday-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        <br>-->
+<!--                    <button type="submit" class="btn btn-secondary">Confirm</button>-->
+<!--            </form>-->
+<!--        </div>-->
+
+<!--        <form method="get" action="/days">-->
+<!--            <div>-->
+<!--                <div class="col-md-6 col-sm-12">-->
+<!--                    <h2>The days you are working:</h2>-->
+
+<!--                    <ul>-->
+<!--                        {{days}}-->
+<!--                    </ul>-->
+
+<!--                    <br>-->
+<!--                    <button type="submit" class="btn btn-secondary">Update</button>-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--</div>-->
 </body>
 </html>

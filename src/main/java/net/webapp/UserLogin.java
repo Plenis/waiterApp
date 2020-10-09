@@ -1,24 +1,24 @@
-package net.waiter;
+package net.webapp;
 
 public class UserLogin {
-    String firstName;
-    String lastName;
+    String firstname;
+    String lastname;
     String username;
     String password;
 
-    public UserLogin(String firstName, String lastName, String username, String password){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public UserLogin(String firstname, String lastname, String username, String password){
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.password = password;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
     }
 
     public void setUsername(String username) {
@@ -30,11 +30,11 @@ public class UserLogin {
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstname;
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
     public String getUsername() {

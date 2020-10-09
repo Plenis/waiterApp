@@ -6,4 +6,4 @@ create table users(
 	password text
 );
 
-insert into users (firstname, lastname, username, password) VALUES ("Sino", "Plenis", "SPlenis", "123");
+insert into users (id, firstname, lastname, username, password) VALUES (1, 'Sino', 'Plenis', 'SPlenis', '123');

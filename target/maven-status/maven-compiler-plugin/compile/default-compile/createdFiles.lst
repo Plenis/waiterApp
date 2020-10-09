@@ -1,3 +1,3 @@
-net/waiter/App.class
-net/waiter/WaiterAvailability.class
-net/waiter/UserLogin.class
+net/webapp/UserLogin.class
+net/webapp/App.class
+net/webapp/WaiterAvailability.class
