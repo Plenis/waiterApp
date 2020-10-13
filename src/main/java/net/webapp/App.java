@@ -56,6 +56,12 @@ public class App {
 
         get("/", (request, response) -> {
 
+            return new ModelAndView(waiter, "login.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        get("/register", (request, response) -> {
+
             return new ModelAndView(waiter, "register.handlebars");
 
         }, new HandlebarsTemplateEngine());
@@ -83,7 +89,7 @@ public class App {
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
-            
+
             waiter.put("firstname", firstname );
             waiter.put("lastname" ,lastname);
             waiter.put("username", username);
