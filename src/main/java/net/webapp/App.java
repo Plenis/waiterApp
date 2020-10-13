@@ -3,11 +3,11 @@ package net.webapp;
 import org.jdbi.v3.core.Jdbi;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
+//import java.sql.SQLException;
 import java.util.HashMap;
+//import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -22,7 +22,7 @@ public class App {
         return 4567;
     }
 
-    static Jdbi getJdbiDatabaseConnection(String defualtJdbcUrl) throws URISyntaxException, SQLException {
+    static Jdbi getJdbiDatabaseConnection(String defaultJdbcUrl) throws URISyntaxException {
         ProcessBuilder processBuilder = new ProcessBuilder();
         String database_url = processBuilder.environment().get("DATABASE_URL");
         if (database_url != null) {
@@ -41,8 +41,7 @@ public class App {
             return Jdbi.create(url, username, password);
         }
 
-        return Jdbi.create(defualtJdbcUrl);
-
+        return Jdbi.create(defaultJdbcUrl);
     }
 
     public static void main(String[] args) {
@@ -51,14 +50,11 @@ public class App {
             port(getHerokuAssignedPort());
         staticFiles.location("/public");
 
-            Jdbi jdbi = getJdbiDatabaseConnection("jdbc:postgresql://localhost/waiter_app?username=sino&password=123");
+            Jdbi jdbi = getJdbiDatabaseConnection("jdbc:postgresql://localhost/waiters_app?username=sino&password=123");
 
             Map<String, Object> waiter = new HashMap<>();
 
         get("/", (request, response) -> {
-//            String firstname = request.queryParams("firstname");
-
-//            waiter.get(firstname);
 
             return new ModelAndView(waiter, "register.handlebars");
 
@@ -66,16 +62,17 @@ public class App {
 
 
         get("/waiters/:username", (request, response) -> {
+
             String firstName = request.queryParams("firstname");
             String lastName = request.queryParams("lastname");
             String username = request.queryParams("username");
 
-            System.out.println("get: "+firstName);
-            System.out.println("get: "+lastName);
-
             waiter.get(firstName);
             waiter.get(lastName);
             waiter.get(username);
+
+            System.out.println("get: "+firstName);
+            System.out.println("get: "+lastName);
 
             return new ModelAndView(waiter, "waiter.handlebars");
 
@@ -83,22 +80,21 @@ public class App {
 
         post("/waiters/:username", (request, response) -> {
 
-            String firstName = request.queryParams("firstname");
-            String lastName = request.queryParams("lastname");
+            String firstname = request.queryParams("firstname");
+            String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
+            
+            waiter.put("firstname", firstname );
+            waiter.put("lastname" ,lastname);
+            waiter.put("username", username);
 
-            System.out.println(firstName);
-            System.out.println(lastName);
-
-            waiter.put(firstName, "firstname");
-            waiter.put(lastName, "lastname");
-            waiter.put(username, "username");
 
             return new ModelAndView(waiter, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
         get("/days", (request, response) -> {
+
             Map<String, Object> map = new HashMap<>();
             return new ModelAndView(map, "admin.handlebars");
 
@@ -106,8 +102,6 @@ public class App {
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 }

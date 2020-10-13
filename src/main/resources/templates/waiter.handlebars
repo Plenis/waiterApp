@@ -4,6 +4,7 @@
 {{> header.handlebars}}
 <head>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
@@ -13,22 +14,33 @@
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <form action="/waiters/:username" method="get">
+                <h4>User information</h4>
             <div>
-                <ul>
-                    {{#each waiter}}
-                        <li>{{firstname}}</li>
-                    {{/each}}
-                </ul>
-            </div>
-            </form>
-        </div>
-        <div class="col-sm">
-            <form method="get" action="/days">
-            <div class="form-check">
+                <br><br>
+                <div class="card-text-center" style="width: 20rem">
+                    <div class="card-header">
+                    <p class="font-weight-bold" align="center">Welcome, you have logged in as</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" > First name:   {{firstname}}</li>
+                        <li class="list-group-item"> Last name:   {{lastname}}</li>
+                        <li class="list-group-item"> Username:   {{username}}</li>
+                    </ul>
+                    <a href="/" type="submit" class="btn btn-secondary">Sign Out</a>
 
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm">
+            <form method="post" action="/days">
+            <div class="form-check">
+                <h4>Day Select</h4>
+                <br><br>
                 <label> Choose ONLY 3 days to work this week:</label>
-                <br>
+                <br><br>
                 <input class="form-check-input" type="checkbox" value="" id="sun">
                 <label class="form-check-label" for="sun">
                     Sunday
@@ -80,18 +92,27 @@
             <button type="submit" class="btn btn-secondary">Confirm</button>
         </form>
         </div>
+
+
         <div class="col-sm">
-            <form method="get" action="/days">
+            <form method="post" action="/days">
                 <div>
                     <div class="col-md-6 col-sm-12">
-                        <h2>The days you are working:</h2>
+                        <h4>The days you are working:</h4>
 
-                        <ul>
-                            {{days}}
-                        </ul>
-
+                        <div class="row">
+<!--                            <div class="col-sm-6">-->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> You are working on these day</h5>
+                                        <br>
+                                        <p class="card-text">{{days}}</p>
+                                        <a href="/waiters/:username" type="submit" class="btn btn-secondary">Update</a>
+                                    </div>
+                                </div>
+<!--                            </div>-->
+                        </div>
                         <br>
-                        <button type="submit" class="btn btn-secondary">Update</button>
 
                     </div>
                 </div>
