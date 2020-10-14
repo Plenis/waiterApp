@@ -72,14 +72,12 @@ public class App {
             String firstName = request.queryParams("firstname");
             String lastName = request.queryParams("lastname");
             String username = request.queryParams("username");
+            String weekday = request.queryParams("weekday");
 
             waiter.get(firstName);
             waiter.get(lastName);
             waiter.get(username);
-
-            System.out.println("get: "+firstName);
-            System.out.println("get: "+lastName);
-
+            waiter.get(weekday);
             return new ModelAndView(waiter, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
@@ -89,7 +87,9 @@ public class App {
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
+            String weekday = request.queryParams("weekday");
 
+            waiter.put("weekday", weekday);
             waiter.put("firstname", firstname );
             waiter.put("lastname" ,lastname);
             waiter.put("username", username);
@@ -100,9 +100,9 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         get("/days", (request, response) -> {
-
             Map<String, Object> map = new HashMap<>();
-            return new ModelAndView(map, "admin.handlebars");
+
+            return new ModelAndView(map, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 

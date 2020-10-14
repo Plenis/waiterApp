@@ -1,3 +1,4 @@
 net/webapp/UserLogin.class
 net/webapp/App.class
 net/webapp/WaiterAvailability.class
+net/webapp/Weekdays.class
