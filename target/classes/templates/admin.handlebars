@@ -10,11 +10,32 @@
 <div>
     <div class="main">
         <div class="col-md-6 col-sm-12">
-            <form method="get" action="/day">
+<!--            <form method="get" action="/admin">-->
                 <div class="form-group">
-                    <h5>Admin... </h5>
-                </div>
-            </form>
+                    <div class="col-6">
+                        <br>
+                        <h2>Waiter Shift Lock</h2>
+                        <br><br>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Sunday</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                                <th>Saturday</th>
+                            </tr>
+                            </thead>
+                            {{#each waiter}}
+                                <tr>
+                                    <td>{{firstName}}</td>
+                                </tr>
+                            {{/each}}
+                        </table>
+                    </div>                </div>
+<!--            </form>-->
         </div>
     </div>
 </div>

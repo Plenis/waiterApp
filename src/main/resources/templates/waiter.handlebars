@@ -37,7 +37,7 @@
 
 
         <div class="col-sm">
-            <form method="get" action="/days">
+            <form method="post" action="/days">
             <div class="form-check">
                 <h4>Day Select</h4>
                 <br><br>
@@ -91,13 +91,13 @@
                 </label>
             </div>
             <br>
-            <button type="submit" class="btn btn-secondary">Confirm</button>
+            <button type="submit" value="Sumbit" class="btn btn-secondary">Confirm</button>
         </form>
         </div>
 
 
         <div class="col-sm">
-<!--            <form method="get" action="/days">-->
+            <form method="get" action="/days">
                 <div>
                     <div class="col-md-6 col-sm-12">
                         <h4>The days you are working:</h4>
@@ -112,13 +112,11 @@
                                         <a href="/waiters/:username" type="submit" class="btn btn-secondary">Update</a>
                                     </div>
                                 </div>
-<!--                            </div>-->
+                            </div>
                         </div>
                         <br>
-
                     </div>
-                </div>
-<!--            </form>   -->
+            </form>
         </div>
     </div>
 </div>

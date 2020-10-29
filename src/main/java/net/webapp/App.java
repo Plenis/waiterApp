@@ -87,9 +87,7 @@ public class App {
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
-            String weekday = request.queryParams("weekday");
 
-            waiter.put("weekday", weekday);
             waiter.put("firstname", firstname );
             waiter.put("lastname" ,lastname);
             waiter.put("username", username);
@@ -102,9 +100,15 @@ public class App {
         get("/days", (request, response) -> {
             Map<String, Object> map = new HashMap<>();
 
+
             return new ModelAndView(map, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
+
+        get("/admin", ((request, response) -> {
+
+            return new ModelAndView(waiter, "admin.handlebars");
+        }), new HandlebarsTemplateEngine());
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
