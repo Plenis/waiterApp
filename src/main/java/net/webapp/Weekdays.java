@@ -1,9 +1,18 @@
 package net.webapp;
 
 public enum Weekdays {
-    Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday;
+    SUNDAY,
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY
 
-    Weekdays() {
-    }
+//    final String day;
+//
+//    Weekdays(String day) {
+//        this.day = day;
+//    }
 
 }

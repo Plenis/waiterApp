@@ -45,6 +45,11 @@ public class App {
     }
 
     public static void main(String[] args) {
+
+        for (Weekdays day : Weekdays.values()) {
+            System.out.println(day);
+        }
+
         try {
 
             port(getHerokuAssignedPort());
@@ -83,7 +88,6 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         post("/waiters/:username", (request, response) -> {
-
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
@@ -100,15 +104,15 @@ public class App {
         get("/days", (request, response) -> {
             Map<String, Object> map = new HashMap<>();
 
+            String weekday = request.queryParams("weekday");
 
+            waiter.put("weekday", weekday);
             return new ModelAndView(map, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
-        get("/admin", ((request, response) -> {
-
-            return new ModelAndView(waiter, "admin.handlebars");
-        }), new HandlebarsTemplateEngine());
+        get("/admin", ((request, response) ->
+                new ModelAndView(waiter, "admin.handlebars")), new HandlebarsTemplateEngine());
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
