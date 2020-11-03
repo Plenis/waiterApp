@@ -24,7 +24,6 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" > {{firstname}} {{lastname}}</li>
-<!--                        <li class="list-group-item"> Last name:   {{lastname}}</li>-->
                         <li class="list-group-item"> Username:   {{username}}</li>
                     </ul>
                     <br><br>
@@ -37,55 +36,55 @@
 
 
         <div class="col-sm">
-            <form method="post" action="/waiters/:username">
+            <form method="post" action="/waiters/:username" >
                 <h4>Day Select</h4>
                 <br><br>
                 <label> Choose ONLY 3 days to work this week:</label>
                 <br><br>
                 <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Sunday" id="weekday" name="weekday">
+                <input class="form-check-input" type="checkbox" value="Sunday" id="weekday1" name="Sunday">
                 <label class="form-check-label" for="Sunday">
                     Sunday
                 </label>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Monday" id="weekday" name="weekday">
+                <input class="form-check-input" type="checkbox" value="Monday" id="weekday2" name="Monday">
                 <label class="form-check-label" for="Monday">
                     Monday
                 </label>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Tuesday" id="weekday" name="weekday">
+                <input class="form-check-input" type="checkbox" value="Tuesday" id="weekday3" name="Tuesday">
                 <label class="form-check-label" for="Tuesday">
                     Tuesday
                 </label>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Wednesday" id="weekday" name="weekday">
+                <input class="form-check-input" type="checkbox" value="Wednesday" id="weekday4" name="Wednesday">
                 <label class="form-check-label" for="Wednesday">
                     Wednesday
                 </label>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Thursday" id="weekday" name="weekday">
+                <input class="form-check-input" type="checkbox" value="Thursday" id="weekday5" name="Thursday">
                 <label class="form-check-label" for="Thursday">
                     Thursday
                 </label>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Friday" id="weekday" name="weekday">
+                <input class="form-check-input" type="checkbox" value="Friday" id="weekday6" name="Friday">
                 <label class="form-check-label" for="Friday">
                     Friday
                 </label>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Saturday" id="weekday" name="weekday">
+                <input class="form-check-input" type="checkbox" value="Saturday" id="weekday7" name="Saturday">
                 <label class="form-check-label" for="Saturday">
                     Saturday
                 </label>
@@ -97,7 +96,7 @@
 
 
         <div class="col-sm">
-            <form method="get" action="/days">
+            <form method="get" action="/waiters/:username">
                 <div>
                     <div class="col-md-6 col-sm-12">
                         <h4>The days you are working:</h4>
@@ -108,7 +107,6 @@
                                     <div class="card-body">
                                         <h5 class="card-title"> You are working on: </h5>
                                         <br>
-<!--                                        <label>{{weekday}}</label>-->
                                         <p class="card-text">{{weekday}}</p>
                                         <a href="/waiters/:username" type="submit" class="btn btn-secondary">Update</a>
                                     </div>

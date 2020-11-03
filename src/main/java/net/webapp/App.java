@@ -3,12 +3,12 @@ package net.webapp;
 import org.jdbi.v3.core.Jdbi;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 //import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.*;
 //import java.util.List;
-import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -45,10 +45,6 @@ public class App {
     }
 
     public static void main(String[] args) {
-
-        for (Weekdays day : Weekdays.values()) {
-            System.out.println(day);
-        }
 
         try {
 
@@ -91,11 +87,20 @@ public class App {
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
+            String weekday = request.queryParams("weekday");
 
-            waiter.put("firstname", firstname );
+
+            ArrayList<Set<String>> shiftDay = new ArrayList<>();
+            shiftDay.add(request.queryParams());
+
+            System.out.println(weekday);
+            System.out.println("------");
+            System.out.println(request.queryParams() + " | " + request.body());
+
+            waiter.put("firstname", firstname);
             waiter.put("lastname" ,lastname);
             waiter.put("username", username);
-
+            waiter.put("weekday", shiftDay);
 
             return new ModelAndView(waiter, "waiter.handlebars");
 
@@ -103,7 +108,6 @@ public class App {
 
         get("/days", (request, response) -> {
             Map<String, Object> map = new HashMap<>();
-
             String weekday = request.queryParams("weekday");
 
             waiter.put("weekday", weekday);
