@@ -1,16 +1,31 @@
 package net.webapp;
 
 public class UserLogin {
+    int id;
     String firstname;
     String lastname;
     String username;
     String password;
 
-    public UserLogin(String firstname, String lastname, String username, String password){
+    public UserLogin() {
+
+    }
+
+
+    public UserLogin(int id, String firstname, String lastname, String username, String password){
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setFirstName(String firstname) {

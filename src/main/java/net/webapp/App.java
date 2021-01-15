@@ -47,7 +47,6 @@ public class App {
     public static void main(String[] args) {
 
         try {
-
             port(getHerokuAssignedPort());
         staticFiles.location("/public");
 
@@ -55,31 +54,35 @@ public class App {
 
             Map<String, Object> waiter = new HashMap<>();
 
-        get("/", (request, response) -> {
+        get("/", (request, response) -> new ModelAndView(waiter, "login.handlebars"), new HandlebarsTemplateEngine());
 
-            return new ModelAndView(waiter, "login.handlebars");
-
-        }, new HandlebarsTemplateEngine());
-
-        get("/register", (request, response) -> {
-
-            return new ModelAndView(waiter, "register.handlebars");
-
-        }, new HandlebarsTemplateEngine());
+        get("/register", (request, response) -> new ModelAndView(waiter, "register.handlebars"), new HandlebarsTemplateEngine());
 
 
         get("/waiters/:username", (request, response) -> {
+//            Map<String, Object> waiterMap = new HashMap<>();
 
-            String firstName = request.queryParams("firstname");
-            String lastName = request.queryParams("lastname");
-            String username = request.queryParams("username");
+            User user = new User(jdbi);
+
+            String firstname = request.queryParams("firstname");
+            String lastname = request.queryParams("lastname");
+            String username = request.params("username");
             String weekday = request.queryParams("weekday");
 
-            waiter.get(firstName);
-            waiter.get(lastName);
+            waiter.get(firstname);
+            waiter.get(lastname);
             waiter.get(username);
             waiter.get(weekday);
-            return new ModelAndView(waiter, "waiter.handlebars");
+
+            System.out.println(user.getAllUsers().size());
+//            System.out.println("username" + username);
+            UserLogin userLogin = user.getOneUser(username);
+            System.out.println("name:" + userLogin.firstname);
+            System.out.println("lastname" + userLogin.lastname);
+            System.out.println("username" + userLogin.username);
+            waiter.put("userLogin", userLogin);
+
+            return new ModelAndView(user, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
@@ -87,15 +90,16 @@ public class App {
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
-            String weekday = request.queryParams("weekday");
+//            String weekday = request.queryParams("weekday"); // one weekday selected
 
 
             ArrayList<Set<String>> shiftDay = new ArrayList<>();
             shiftDay.add(request.queryParams());
 
-            System.out.println(weekday);
-            System.out.println("------");
-            System.out.println(request.queryParams() + " | " + request.body());
+            System.out.println("firstname: " + firstname);
+            System.out.println("lastname: "+ lastname);
+            System.out.println("username: " + username);
+            System.out.println("shiftDay: " + request.queryParams() + " | " + request.body());
 
             waiter.put("firstname", firstname);
             waiter.put("lastname" ,lastname);
@@ -116,6 +120,12 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         get("/admin", ((request, response) ->
+                /*
+                 * According to the days selected by the waiter, the waiter name should appear
+                 * under the days selected to work
+                 *
+                 * Admin should be able to change waiter working days
+                 * */
                 new ModelAndView(waiter, "admin.handlebars")), new HandlebarsTemplateEngine());
 
         } catch (URISyntaxException e) {
