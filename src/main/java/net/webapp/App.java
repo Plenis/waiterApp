@@ -44,9 +44,9 @@ public class App {
         return Jdbi.create(defaultJdbcUrl);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
 
-        try {
+//        try {
             port(getHerokuAssignedPort());
         staticFiles.location("/public");
 
@@ -54,35 +54,61 @@ public class App {
 
             Map<String, Object> waiter = new HashMap<>();
 
+
         get("/", (request, response) -> new ModelAndView(waiter, "login.handlebars"), new HandlebarsTemplateEngine());
 
-        get("/register", (request, response) -> new ModelAndView(waiter, "register.handlebars"), new HandlebarsTemplateEngine());
+       get("/register", (request, response) -> {
 
+           System.out.println("get route...");
+                    return  new ModelAndView(waiter, "register.handlebars");
+
+                },new HandlebarsTemplateEngine()
+        );
+
+        post("/register", (request, response) -> {
+
+                    String firstname = request.queryParams("firstname");
+                    String lastname = request.queryParams("lastname");
+                    String username = request.queryParams("username");
+                    String password = request.queryParams("password");
+
+                    User user = new User();
+                    user.setFirstName(firstname);
+                    user.setLastName(lastname);
+                    user.setUsername(username);
+                    user.setPassword(password);
+
+                    UserService userService = new UserService(jdbi);
+                    userService.insertNewUser(user);
+
+                    response.redirect("/waiters/" + username);
+
+                    return  new ModelAndView(waiter, "register.handlebars");
+
+                },new HandlebarsTemplateEngine()
+        );
 
         get("/waiters/:username", (request, response) -> {
-//            Map<String, Object> waiterMap = new HashMap<>();
+            Map<String, Object> waiterMap = new HashMap<>();
 
-            User user = new User(jdbi);
+            UserService userService = new UserService(jdbi);
+
+            User user = userService.getOneUser(request.params("username"));
 
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.params("username");
             String weekday = request.queryParams("weekday");
 
+            System.out.println("user: " + user);
+            waiterMap.put("user", user);
+
             waiter.get(firstname);
             waiter.get(lastname);
             waiter.get(username);
             waiter.get(weekday);
 
-            System.out.println(user.getAllUsers().size());
-//            System.out.println("username" + username);
-            UserLogin userLogin = user.getOneUser(username);
-            System.out.println("name:" + userLogin.firstname);
-            System.out.println("lastname" + userLogin.lastname);
-            System.out.println("username" + userLogin.username);
-            waiter.put("userLogin", userLogin);
-
-            return new ModelAndView(user, "waiter.handlebars");
+            return new ModelAndView(waiterMap, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
@@ -90,16 +116,11 @@ public class App {
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
-//            String weekday = request.queryParams("weekday"); // one weekday selected
-
 
             ArrayList<Set<String>> shiftDay = new ArrayList<>();
             shiftDay.add(request.queryParams());
 
-            System.out.println("firstname: " + firstname);
-            System.out.println("lastname: "+ lastname);
-            System.out.println("username: " + username);
-            System.out.println("shiftDay: " + request.queryParams() + " | " + request.body());
+//            System.out.println("shiftDay: " + request.queryParams());
 
             waiter.put("firstname", firstname);
             waiter.put("lastname" ,lastname);
@@ -128,8 +149,9 @@ public class App {
                  * */
                 new ModelAndView(waiter, "admin.handlebars")), new HandlebarsTemplateEngine());
 
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         }
-    }
+//        catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

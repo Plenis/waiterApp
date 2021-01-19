@@ -1,33 +1,73 @@
 package net.webapp;
 
-import org.jdbi.v3.core.Jdbi;
-
-import java.util.List;
-
 public class User {
-    private Jdbi jdbi;
+    int id;
+    String firstname;
+    String lastname;
+    String username;
+    String password;
 
-    public User(Jdbi jdbi){
-        this.jdbi = jdbi;
+
+    public User() {
+
     }
 
-    public List<UserLogin> getAllUsers(){
-
-        String sql = "Select id, firstname, lastname, username, password from users";
-
-        return jdbi.withHandle(handle -> handle.createQuery(sql)
-                .mapToBean(UserLogin.class)
-                .list()
-        );    }
-
-    public UserLogin getOneUser(String user){
-        String sql = "Select id, firstname, lastname, username, password from users where username = :username";
-
-        return jdbi.withHandle(handle -> handle.createQuery(sql)
-                .bind("username", user)
-                .mapToBean(UserLogin.class)
-                .findOnly()
-        );
+    public User(int id, String firstname, String lastname, String username, String password){
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.password = password;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstname;
+    }
+
+    public String getLastName() {
+        return lastname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
