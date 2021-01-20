@@ -2,7 +2,6 @@ package net.webapp;
 
 import org.jdbi.v3.core.Jdbi;
 
-import java.lang.ref.SoftReference;
 import java.util.List;
 
 public class UserService {

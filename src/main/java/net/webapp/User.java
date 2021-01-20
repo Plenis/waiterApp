@@ -8,9 +8,7 @@ public class User {
     String password;
 
 
-    public User() {
-
-    }
+    public User() { }
 
     public User(int id, String firstname, String lastname, String username, String password){
         this.id = id;

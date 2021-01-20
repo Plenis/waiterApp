@@ -47,19 +47,19 @@ public class App {
     public static void main(String[] args) throws URISyntaxException {
 
 //        try {
-            port(getHerokuAssignedPort());
+        port(getHerokuAssignedPort());
         staticFiles.location("/public");
 
-            Jdbi jdbi = getJdbiDatabaseConnection("jdbc:postgresql://localhost/waiters_app?username=sino&password=123");
+        Jdbi jdbi = getJdbiDatabaseConnection("jdbc:postgresql://localhost/waiters_app?username=sino&password=123");
 
-            Map<String, Object> waiter = new HashMap<>();
+        Map<String, Object> waiter = new HashMap<>();
 
 
         get("/", (request, response) -> new ModelAndView(waiter, "login.handlebars"), new HandlebarsTemplateEngine());
 
-       get("/register", (request, response) -> {
+        get("/register", (request, response) -> {
 
-           System.out.println("get route...");
+                    System.out.println("get route...");
                     return  new ModelAndView(waiter, "register.handlebars");
 
                 },new HandlebarsTemplateEngine()
@@ -114,13 +114,12 @@ public class App {
 
         post("/waiters/:username", (request, response) -> {
             String firstname = request.queryParams("firstname");
-            String lastname = request.queryParams("lastname");
+            String lastname = request.queryParams("lastname");//            System.out.println("shiftDay: " + request.queryParams());
+
             String username = request.queryParams("username");
 
             ArrayList<Set<String>> shiftDay = new ArrayList<>();
             shiftDay.add(request.queryParams());
-
-//            System.out.println("shiftDay: " + request.queryParams());
 
             waiter.put("firstname", firstname);
             waiter.put("lastname" ,lastname);
@@ -135,21 +134,19 @@ public class App {
             Map<String, Object> map = new HashMap<>();
             String weekday = request.queryParams("weekday");
 
+            /*
+             * According to the days selected by the waiter, the waiter name should appear
+             * under the days selected to work
+             *
+             * Admin should be able to change waiter working days
+             * */
+
             waiter.put("weekday", weekday);
-            return new ModelAndView(map, "waiter.handlebars");
+            return new ModelAndView(map, "admin.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
-        get("/admin", ((request, response) ->
-                /*
-                 * According to the days selected by the waiter, the waiter name should appear
-                 * under the days selected to work
-                 *
-                 * Admin should be able to change waiter working days
-                 * */
-                new ModelAndView(waiter, "admin.handlebars")), new HandlebarsTemplateEngine());
-
-        }
+    }
 //        catch (URISyntaxException e) {
 //            e.printStackTrace();
 //        }
