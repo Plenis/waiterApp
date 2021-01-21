@@ -19,18 +19,14 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Sunday</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                                <th>Saturday</th>
+                                {{#each dayList}}
+                                <th>{{day_name}}</th>
+                                {{/each}}
                             </tr>
                             </thead>
-                            {{#each waiter}}
+                            {{#each user}}
                                 <tr>
-                                    <td>{{user.firstname}} {{user.lastname}} </td>
+                                    <td>{{user.username}} </td>
                                 </tr>
                             {{/each}}
                         </table>

@@ -1,11 +1,18 @@
 package net.webapp;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class UserService {
     private Jdbi jdbi;
+    List <User> userList;
+
 
     public UserService(Jdbi jdbi){
         this.jdbi = jdbi;
@@ -41,12 +48,81 @@ public class UserService {
         );
     }
 
-    public void getUserShiftDay(User user){
-        String sql = "select * from users join shift on users.id  = shift.user_id join week_day on week_day.id = shift.day_id where username = :username;\n";
-        jdbi.withHandle(handle -> handle.createQuery(sql)
-            .bind("user_id", user)
-                .mapToBean(User.class)
+    public User getUserShiftDay(String user, String shiftDay){
+        String sql = "select * from users join shift on users.id = shift.user_id join week_day on week_day.id = shift.day_id where username = ?;";
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                 .bind("user_id", user)
+                 .bind("day_id", shiftDay)
+                 .mapToBean(User.class)
+                 .findOnly()
+        );
+    }
+
+    public List <Day> dayList(){
+        String sql = "Select id, day_name from week_day";
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .mapToBean(Day.class)
+                .list()
+        );
+    }
+
+//    public Day getDayName(){
+//
+//    }
+
+    public Day getOneDay(String dayName){
+        String sql = "Select id, day_name from week_day where day_name = ?";
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind(0, dayName)
+                .mapToBean(Day.class)
                 .findOnly()
         );
     }
+
+    public void addUserDays(int userId, int dayId){
+        String sql = "Insert into shift (user_id, day_id) VALUES (?, ?)";
+
+        jdbi.useHandle(handle -> handle.execute(sql, userId, dayId)
+        );
+    }
+
+//    public List <User> getDaysByUsername(String username){
+//        String sql = "Select id u_id, firstname u_firstname, lastname u_lastname, username u_username, password u_password, " +
+//               "id s_id, user_id s_user_id, day_id s_day_id, " +
+//                 "id d_id, day_name d_day_name " +
+//                 "from users u " +
+//                "inner join shift s " +
+////                "on u.id = s.user_id " +
+//                "inner join week_day d " +
+//                "on d.id = s.day_id";
+//
+//        return jdbi.withHandle(handle -> {
+//                    userList = handle.createQuery(sql)
+//                            .registerRowMapper(BeanMapper.factory(User.class, "u"))
+//                            .registerRowMapper(BeanMapper.factory(Day.class, "d"))
+//                            .registerRowMapper(BeanMapper.factory(Shift.class, "s"))
+//                            .reduceRows(new LinkedHashMap<Long, User>(),
+//                                    (map, rowView) -> {
+//                                        User user = map.computeIfAbsent(
+//                                                rowView.getColumn("u_id", Long.class),
+//                                                id -> rowView.getRow(User.class));
+//
+////                                        if (rowView.getColumn("d_id", Long.class) != null) {
+////                                            user.addDay(rowView.getRow(Day.class));
+////                                        }
+//                                        return map;
+//                                    })
+//                            .values()
+//                            .stream()
+//                            .collect(toList());
+//                    return userList;
+//
+//                }
+//                );
+//
+//    }
+
+
 }

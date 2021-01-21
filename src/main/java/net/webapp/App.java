@@ -59,7 +59,7 @@ public class App {
 
         get("/register", (request, response) -> {
 
-                    System.out.println("get route...");
+                    System.out.println();
                     return  new ModelAndView(waiter, "register.handlebars");
 
                 },new HandlebarsTemplateEngine()
@@ -92,16 +92,20 @@ public class App {
             Map<String, Object> waiterMap = new HashMap<>();
 
             UserService userService = new UserService(jdbi);
-
             User user = userService.getOneUser(request.params("username"));
-            
+
+            List <Day> dayList = userService.dayList();
+
+//            System.out.println(userService.getDaysByUsername(""));
+
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.params("username");
-            String weekday = request.queryParams("weekday");
+            String weekday = request.queryParams("day_name");
 
             System.out.println("user: " + user);
             waiterMap.put("user", user);
+            waiterMap.put("dayList", dayList);
 
             waiter.get(firstname);
             waiter.get(lastname);
@@ -112,36 +116,74 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-        post("/waiters/:username", (request, response) -> {
+        post("/waiters/:username",(request, response) -> {
+            Map<String, Object> shiftDay = new HashMap<>();
+
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
 
-            ArrayList<Set<String>> shiftDay = new ArrayList<>();
-            shiftDay.add(request.queryParams());
+            UserService userService = new UserService(jdbi);
+            User userShiftDays = userService.getUserShiftDay(request.params("username"), request.params("day_name"));
+
+//            ArrayList<Set<String>> shiftDay = new ArrayList<>();
+//            shiftDay.add(request.queryParams());
+
+            System.out.println("working days: " + userShiftDays +  "  |  " + shiftDay);
 
             waiter.put("firstname", firstname);
             waiter.put("lastname" ,lastname);
             waiter.put("username", username);
             waiter.put("weekday", shiftDay);
 
+            response.redirect("/waiters/" + username);
+
+
             return new ModelAndView(waiter, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
+        post("/waiters/:username/confirm",(request, response) -> {
+            String weekDay = request.queryParams("");
+            UserService userService = new UserService(jdbi);
+            User user = userService.getOneUser(request.params("username"));
+
+            Set<String> daysList = request.queryParams();
+
+            for (String  dayName: daysList){
+                Day day = userService.getOneDay(dayName);
+
+                userService.addUserDays(user.getId(), day.getId());
+                System.out.println("dayID: "+ day.getId());
+                waiter.put("weekday", dayName);
+
+            }
+
+            System.out.println(request.queryParams().getClass());
+            System.out.println("confirm...");
+            response.redirect("/waiters/" + request.params("username"));
+
+            return new ModelAndView(waiter, "waiter.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+
         get("/days", (request, response) -> {
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> shiftDays = new HashMap<>();
             String weekday = request.queryParams("weekday");
 
-            /*
-             * According to the days selected by the waiter, the waiter name should appear
+            UserService userService = new UserService(jdbi);
+            User userShiftDays = userService.getUserShiftDay(request.params("username"), request.params("day_name"));
+
+            shiftDays.put("weekday", userShiftDays);
+            /* According to the days selected by the waiter, the waiter name should appear
              * under the days selected to work
              *
              * Admin should be able to change waiter working days
              * */
 
             waiter.put("weekday", weekday);
-            return new ModelAndView(map, "admin.handlebars");
+            return new ModelAndView(shiftDays, "admin.handlebars");
 
         }, new HandlebarsTemplateEngine());
 

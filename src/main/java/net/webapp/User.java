@@ -1,11 +1,14 @@
 package net.webapp;
 
+import java.util.List;
+
 public class User {
     int id;
     String firstname;
     String lastname;
     String username;
     String password;
+    List <Day> listOfDays;
 
 
     public User() { }
@@ -16,6 +19,14 @@ public class User {
         this.lastname = lastname;
         this.username = username;
         this.password = password;
+    }
+
+    public void addDay(Day day){
+        listOfDays.add(day);
+    }
+
+    public List<Day> getListOfDays() {
+        return listOfDays;
     }
 
     public int getId() {
