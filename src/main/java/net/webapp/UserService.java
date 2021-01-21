@@ -41,5 +41,12 @@ public class UserService {
         );
     }
 
-
+    public void getUserShiftDay(User user){
+        String sql = "select * from users join shift on users.id  = shift.user_id join week_day on week_day.id = shift.day_id where username = :username;\n";
+        jdbi.withHandle(handle -> handle.createQuery(sql)
+            .bind("user_id", user)
+                .mapToBean(User.class)
+                .findOnly()
+        );
+    }
 }

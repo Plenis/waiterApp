@@ -94,7 +94,7 @@ public class App {
             UserService userService = new UserService(jdbi);
 
             User user = userService.getOneUser(request.params("username"));
-
+            
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.params("username");
@@ -114,8 +114,7 @@ public class App {
 
         post("/waiters/:username", (request, response) -> {
             String firstname = request.queryParams("firstname");
-            String lastname = request.queryParams("lastname");//            System.out.println("shiftDay: " + request.queryParams());
-
+            String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
 
             ArrayList<Set<String>> shiftDay = new ArrayList<>();
