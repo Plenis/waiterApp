@@ -93,7 +93,6 @@ public class App {
 
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(request.params("username"));
-            List<User> day = userService.getDaysByUsername(request.params("username"));
 
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days for user
@@ -104,7 +103,6 @@ public class App {
 
             System.out.println("userDayList: " + userDayList);
             System.out.println("user: " + user);
-            System.out.println("A day: " +  day);
 
             waiterMap.put("user", user);
             waiterMap.put("userDayList", userDayList);
@@ -113,7 +111,7 @@ public class App {
             waiter.get(firstname);
             waiter.get(lastname);
             waiter.get(username);
-            waiter.get(dayList);
+//            waiter.get(dayList);
 
             return new ModelAndView(waiterMap, "waiter.handlebars");
 
@@ -156,22 +154,17 @@ public class App {
 
 
         get("/days", (request, response) -> {
-            Map<String, Object> shiftDays = new HashMap<>();
-            String weekday = request.queryParams("weekday");
-            User userLoggedIn = new User();
+            Map<String, Object> shiftMap = new HashMap<>();
+
             UserService userService = new UserService(jdbi);
-            User userWorkingDay = (User) userLoggedIn.getListOfDays();
 
-            System.out.println("workingDay: " + userWorkingDay);
-//            shiftDays.put("weekday", userShiftDays);
-            /* According to the days selected by the waiter, the waiter name should appear
-             * under the days selected to work
-             *
-             * Admin should be able to change waiter working days
-             * */
+            List <Day> dayList = userService.dayList(); // all the days
+            List <User> userDayList = userService.getDaysByUsername(request.params("username"));
 
-            waiter.put("weekday", weekday);
-            return new ModelAndView(shiftDays, "admin.handlebars");
+            shiftMap.put("dayList", dayList);
+            shiftMap.put("userDayList", userDayList);
+
+            return new ModelAndView(shiftMap, "admin.handlebars");
 
         }, new HandlebarsTemplateEngine());
 

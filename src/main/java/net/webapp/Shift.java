@@ -36,4 +36,5 @@ public class Shift {
     public void setDayId(Long dayId) {
         this.dayId = dayId;
     }
+
 }

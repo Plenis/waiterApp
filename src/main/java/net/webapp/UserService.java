@@ -3,14 +3,13 @@ package net.webapp;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
 public class UserService {
-    private Jdbi jdbi;
+    private final Jdbi jdbi;
     List <User> userList;
 
 
@@ -124,6 +123,4 @@ public class UserService {
                 });
 
     }
-
-
 }
