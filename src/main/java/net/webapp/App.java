@@ -93,48 +93,41 @@ public class App {
 
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(request.params("username"));
+            List<User> day = userService.getDaysByUsername(request.params("username"));
 
-            List <Day> dayList = userService.dayList();
-
-//            System.out.println(userService.getDaysByUsername(""));
+            List <Day> dayList = userService.dayList(); // all the days
+            List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days for user
 
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.params("username");
-            String weekday = request.queryParams("day_name");
 
+            System.out.println("userDayList: " + userDayList);
             System.out.println("user: " + user);
+            System.out.println("A day: " +  day);
+
             waiterMap.put("user", user);
+            waiterMap.put("userDayList", userDayList);
             waiterMap.put("dayList", dayList);
 
             waiter.get(firstname);
             waiter.get(lastname);
             waiter.get(username);
-            waiter.get(weekday);
+            waiter.get(dayList);
 
             return new ModelAndView(waiterMap, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
         post("/waiters/:username",(request, response) -> {
-            Map<String, Object> shiftDay = new HashMap<>();
 
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.queryParams("username");
 
-            UserService userService = new UserService(jdbi);
-            User userShiftDays = userService.getUserShiftDay(request.params("username"), request.params("day_name"));
-
-//            ArrayList<Set<String>> shiftDay = new ArrayList<>();
-//            shiftDay.add(request.queryParams());
-
-            System.out.println("working days: " + userShiftDays +  "  |  " + shiftDay);
-
             waiter.put("firstname", firstname);
             waiter.put("lastname" ,lastname);
             waiter.put("username", username);
-            waiter.put("weekday", shiftDay);
 
             response.redirect("/waiters/" + username);
 
@@ -144,7 +137,6 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         post("/waiters/:username/confirm",(request, response) -> {
-            String weekDay = request.queryParams("");
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(request.params("username"));
 
@@ -152,15 +144,10 @@ public class App {
 
             for (String  dayName: daysList){
                 Day day = userService.getOneDay(dayName);
-
                 userService.addUserDays(user.getId(), day.getId());
-                System.out.println("dayID: "+ day.getId());
                 waiter.put("weekday", dayName);
-
             }
 
-            System.out.println(request.queryParams().getClass());
-            System.out.println("confirm...");
             response.redirect("/waiters/" + request.params("username"));
 
             return new ModelAndView(waiter, "waiter.handlebars");
@@ -171,11 +158,12 @@ public class App {
         get("/days", (request, response) -> {
             Map<String, Object> shiftDays = new HashMap<>();
             String weekday = request.queryParams("weekday");
-
+            User userLoggedIn = new User();
             UserService userService = new UserService(jdbi);
-            User userShiftDays = userService.getUserShiftDay(request.params("username"), request.params("day_name"));
+            User userWorkingDay = (User) userLoggedIn.getListOfDays();
 
-            shiftDays.put("weekday", userShiftDays);
+            System.out.println("workingDay: " + userWorkingDay);
+//            shiftDays.put("weekday", userShiftDays);
             /* According to the days selected by the waiter, the waiter name should appear
              * under the days selected to work
              *

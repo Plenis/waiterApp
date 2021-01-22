@@ -2,23 +2,25 @@ package net.webapp;
 
 public class Day {
 
-    private int id;
+    private Long id;
     private String day_name;
+    private Long user_id;
+    private Boolean working;
 
     public Day() {
 
     }
 
-    Day(int id, String day_name){
+    Day(Long id, String day_name){
         this.id = id;
         this.day_name = day_name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,5 +30,13 @@ public class Day {
 
     public void setDay_name(String day_name) {
         this.day_name = day_name;
+    }
+
+    @Override
+    public String toString() {
+        return "Day{" +
+                "id=" + id +
+                ", day_name='" + day_name + '\'' +
+                '}';
     }
 }

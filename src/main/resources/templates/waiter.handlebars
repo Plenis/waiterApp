@@ -69,7 +69,11 @@
                                     <div class="card-body">
                                         <h5 class="card-title"> You are working on: </h5>
                                         <br>
-                                        <p class="card-text">{{user.weekday}}</p>
+                                        {{#each userDayList}}
+                                            {{#each listOfDays}}
+                                        <p class="card-text">{{day_name}}</p>
+                                            {{/each}}
+                                        {{/each}}
                                         <a href="/waiters/:username" type="submit" class="btn btn-secondary">Update</a>
                                     </div>
                                 </div>

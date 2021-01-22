@@ -1,19 +1,20 @@
 package net.webapp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    int id;
+    Long id;
     String firstname;
     String lastname;
     String username;
     String password;
-    List <Day> listOfDays;
+    List <Day> listOfDays = new ArrayList<>();
 
 
     public User() { }
 
-    public User(int id, String firstname, String lastname, String username, String password){
+    public User(Long id, String firstname, String lastname, String username, String password){
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -29,11 +30,11 @@ public class User {
         return listOfDays;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,6 +78,7 @@ public class User {
                 ", lastname='" + lastname + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", listOfDays=" + listOfDays +
                 '}';
     }
 }

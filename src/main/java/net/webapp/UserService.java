@@ -38,7 +38,9 @@ public class UserService {
     }
 
     public void insertNewUser(User user){
-        String sql = "Insert into users (firstname, lastname, username, password) VALUES (?, ?, ?, ?)";
+        String sql = "Insert into users " +
+                "(firstname, lastname, username, password) " +
+                "VALUES (?, ?, ?, ?)";
         jdbi.useHandle(handle -> handle.execute(sql,
                 user.firstname,
                 user.lastname,
@@ -49,7 +51,10 @@ public class UserService {
     }
 
     public User getUserShiftDay(String user, String shiftDay){
-        String sql = "select * from users join shift on users.id = shift.user_id join week_day on week_day.id = shift.day_id where username = ?;";
+        String sql = "select * from users " +
+                "join shift on users.id = shift.user_id " +
+                "join week_day on week_day.id = shift.day_id " +
+                "where username = ?;";
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                  .bind("user_id", user)
@@ -67,10 +72,6 @@ public class UserService {
         );
     }
 
-//    public Day getDayName(){
-//
-//    }
-
     public Day getOneDay(String dayName){
         String sql = "Select id, day_name from week_day where day_name = ?";
 
@@ -81,48 +82,48 @@ public class UserService {
         );
     }
 
-    public void addUserDays(int userId, int dayId){
+    public void addUserDays(Long userId, Long dayId){
         String sql = "Insert into shift (user_id, day_id) VALUES (?, ?)";
 
         jdbi.useHandle(handle -> handle.execute(sql, userId, dayId)
         );
     }
 
-//    public List <User> getDaysByUsername(String username){
-//        String sql = "Select id u_id, firstname u_firstname, lastname u_lastname, username u_username, password u_password, " +
-//               "id s_id, user_id s_user_id, day_id s_day_id, " +
-//                 "id d_id, day_name d_day_name " +
-//                 "from users u " +
-//                "inner join shift s " +
-////                "on u.id = s.user_id " +
-//                "inner join week_day d " +
-//                "on d.id = s.day_id";
-//
-//        return jdbi.withHandle(handle -> {
-//                    userList = handle.createQuery(sql)
-//                            .registerRowMapper(BeanMapper.factory(User.class, "u"))
-//                            .registerRowMapper(BeanMapper.factory(Day.class, "d"))
-//                            .registerRowMapper(BeanMapper.factory(Shift.class, "s"))
-//                            .reduceRows(new LinkedHashMap<Long, User>(),
-//                                    (map, rowView) -> {
-//                                        User user = map.computeIfAbsent(
-//                                                rowView.getColumn("u_id", Long.class),
-//                                                id -> rowView.getRow(User.class));
-//
-////                                        if (rowView.getColumn("d_id", Long.class) != null) {
-////                                            user.addDay(rowView.getRow(Day.class));
-////                                        }
-//                                        return map;
-//                                    })
-//                            .values()
-//                            .stream()
-//                            .collect(toList());
-//                    return userList;
-//
-//                }
-//                );
-//
-//    }
+    public List <User> getDaysByUsername(String name){
+        String sql = "Select u.id u_id, u.firstname u_firstname, u.lastname u_lastname, u.username u_username, u.password u_password, " +
+               "s.id s_id, s.user_id s_user_id, s.day_id s_day_id, " +
+                 "d.id d_id, d.day_name d_day_name " +
+                 "from users u " +
+                "inner join shift s " +
+                "on u.id = s.user_id " +
+                "inner join week_day d " +
+                "on d.id = s.day_id "+
+                "where u.username = '" + name + "'";
+
+        return jdbi.withHandle(handle -> {
+                    userList = handle.createQuery(sql)
+                            .registerRowMapper(BeanMapper.factory(User.class, "u"))
+                            .registerRowMapper(BeanMapper.factory(Day.class, "d"))
+                            .registerRowMapper(BeanMapper.factory(Shift.class, "s"))
+                            .reduceRows(new LinkedHashMap<Long, User>(),
+                                    (map, rowView) -> {
+                                        User user = map.computeIfAbsent(
+                                                rowView.getColumn("u_id", Long.class),
+                                                id -> rowView.getRow(User.class));
+
+                                        if (rowView.getColumn("d_id", Long.class) != null) {
+                                           user.addDay(rowView.getRow(Day.class));
+                                        }
+                                        return map;
+                                    })
+                            .values()
+                            .stream()
+                            .collect(toList());
+                    return userList;
+
+                });
+
+    }
 
 
 }
