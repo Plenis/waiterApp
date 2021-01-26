@@ -95,14 +95,16 @@ public class App {
             User user = userService.getOneUser(request.params("username"));
 
             List <Day> dayList = userService.dayList(); // all the days
-            List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days for user
+            List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
 
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.params("username");
 
             System.out.println("userDayList: " + userDayList);
+//            System.out.println("dayList: " + dayList.get(0).getDay_name());
             System.out.println("user: " + user);
+            System.out.println(userService.getAllUsers());
 
             waiterMap.put("user", user);
             waiterMap.put("userDayList", userDayList);
@@ -112,7 +114,6 @@ public class App {
             waiter.get(lastname);
             waiter.get(username);
 //            waiter.get(dayList);
-
             return new ModelAndView(waiterMap, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
@@ -152,8 +153,28 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-
         get("/days", (request, response) -> {
+            Map<String, Object> shiftMap = new HashMap<>();
+
+            UserService userService = new UserService(jdbi);
+
+            List <Day> dayList = userService.dayList(); // all the days
+            List <User> userDayList = userService.getDaysByUsername(request.params("username"));
+
+
+            System.out.println("get route....");
+            System.out.println(userDayList);
+            System.out.println(dayList);
+
+            shiftMap.put("dayList", dayList);
+            shiftMap.put("userDayList", userDayList);
+//            shiftMap.put("user", userService.getDaysByUsername("SPlenis"));
+
+            return new ModelAndView(shiftMap, "admin.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        post("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();
 
             UserService userService = new UserService(jdbi);
@@ -163,6 +184,7 @@ public class App {
 
             shiftMap.put("dayList", dayList);
             shiftMap.put("userDayList", userDayList);
+            shiftMap.put("user", userService.getDaysByUsername(request.params("")));
 
             return new ModelAndView(shiftMap, "admin.handlebars");
 

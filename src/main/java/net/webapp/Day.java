@@ -5,11 +5,9 @@ public class Day {
     private Long id;
     private String day_name;
     private Long user_id;
-    private Boolean working;
+    private Boolean workingDay;
 
-    public Day() {
-
-    }
+    public Day() { }
 
     Day(Long id, String day_name){
         this.id = id;

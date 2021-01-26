@@ -2,15 +2,14 @@ package net.webapp;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
-
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class UserService {
     private final Jdbi jdbi;
     List <User> userList;
+    List <Day> userDayList;
 
 
     public UserService(Jdbi jdbi){
@@ -49,11 +48,11 @@ public class UserService {
         );
     }
 
-    public User getUserShiftDay(String user, String shiftDay){
+    public User getUserAndShiftInformation(String user, List<User> shiftDay){
         String sql = "select * from users " +
                 "join shift on users.id = shift.user_id " +
                 "join week_day on week_day.id = shift.day_id " +
-                "where username = ?;";
+                "where username = ?";
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                  .bind("user_id", user)
@@ -62,7 +61,6 @@ public class UserService {
                  .findOnly()
         );
     }
-
     public List <Day> dayList(){
         String sql = "Select id, day_name from week_day";
         return jdbi.withHandle(handle -> handle.createQuery(sql)
@@ -100,7 +98,7 @@ public class UserService {
                 "where u.username = '" + name + "'";
 
         return jdbi.withHandle(handle -> {
-                    userList = handle.createQuery(sql)
+                    userList = new ArrayList<>(handle.createQuery(sql)
                             .registerRowMapper(BeanMapper.factory(User.class, "u"))
                             .registerRowMapper(BeanMapper.factory(Day.class, "d"))
                             .registerRowMapper(BeanMapper.factory(Shift.class, "s"))
@@ -111,16 +109,24 @@ public class UserService {
                                                 id -> rowView.getRow(User.class));
 
                                         if (rowView.getColumn("d_id", Long.class) != null) {
-                                           user.addDay(rowView.getRow(Day.class));
+                                            user.addDay(rowView.getRow(Day.class));
                                         }
                                         return map;
                                     })
-                            .values()
-                            .stream()
-                            .collect(toList());
+                            .values());
                     return userList;
-
                 });
 
     }
+
+    public Day getUsersByDay(Day dayName){
+        String sql = "Select users.username from users join shift on users.id = shift.user_id join week_day on week_day.id = shift.day_id where day_name = '" + dayName + "'";
+
+            return jdbi.withHandle(handle -> handle.createQuery(sql)
+                    .bind(1, dayName)
+                    .mapToBean(Day.class)
+                    .findOnly()
+            );
+    }
+
 }

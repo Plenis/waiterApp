@@ -78,7 +78,7 @@ public class User {
                 ", lastname='" + lastname + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", listOfDays=" + listOfDays +
+                ", listOfDays=" + getListOfDays() +
                 '}';
     }
 }
