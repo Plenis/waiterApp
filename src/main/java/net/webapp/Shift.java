@@ -4,6 +4,8 @@ public class Shift {
     Long id;
     Long userId;
     Long dayId;
+    Long userName;
+    Long dayName;
 
     Shift(){}
 
@@ -37,4 +39,19 @@ public class Shift {
         this.dayId = dayId;
     }
 
+    public Long getUserName() {
+        return userName;
+    }
+
+    public void setUserName(Long userName) {
+        this.userName = userName;
+    }
+
+    public Long getDayName() {
+        return dayName;
+    }
+
+    public void setDayName(Long dayName) {
+        this.dayName = dayName;
+    }
 }

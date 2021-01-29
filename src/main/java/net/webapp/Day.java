@@ -1,17 +1,20 @@
 package net.webapp;
 
+import java.util.List;
+
 public class Day {
 
     private Long id;
-    private String day_name;
-    private Long user_id;
-    private Boolean workingDay;
+    private String dayName;
+//    private Long user_id;
+    private List<String> users;
+
 
     public Day() { }
 
-    Day(Long id, String day_name){
+    Day(Long id, String dayName){
         this.id = id;
-        this.day_name = day_name;
+        this.dayName = dayName;
     }
 
     public Long getId() {
@@ -22,19 +25,28 @@ public class Day {
         this.id = id;
     }
 
-    public String getDay_name() {
-        return day_name;
+    public String getDayName() {
+        return dayName;
     }
 
-    public void setDay_name(String day_name) {
-        this.day_name = day_name;
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
+    }
+
+    public List<String> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<String> users) {
+        this.users = users;
     }
 
     @Override
     public String toString() {
         return "Day{" +
                 "id=" + id +
-                ", day_name='" + day_name + '\'' +
+                ", dayName='" + dayName + '\'' +
+                ", users=" + users +
                 '}';
     }
 }

@@ -94,17 +94,13 @@ public class App {
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(request.params("username"));
 
+//            List<User> allUsers = userService.getAllUsers();
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
 
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
             String username = request.params("username");
-
-            System.out.println("userDayList: " + userDayList);
-//            System.out.println("dayList: " + dayList.get(0).getDay_name());
-            System.out.println("user: " + user);
-            System.out.println(userService.getAllUsers());
 
             waiterMap.put("user", user);
             waiterMap.put("userDayList", userDayList);
@@ -113,7 +109,6 @@ public class App {
             waiter.get(firstname);
             waiter.get(lastname);
             waiter.get(username);
-//            waiter.get(dayList);
             return new ModelAndView(waiterMap, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
@@ -141,8 +136,8 @@ public class App {
 
             Set<String> daysList = request.queryParams();
 
-            for (String  dayName: daysList){
-                Day day = userService.getOneDay(dayName);
+            for (String dayName: daysList){
+                Day day = userService.getWorkingDay(dayName);
                 userService.addUserDays(user.getId(), day.getId());
                 waiter.put("weekday", dayName);
             }
@@ -153,22 +148,21 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
+
         get("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();
 
             UserService userService = new UserService(jdbi);
 
             List <Day> dayList = userService.dayList(); // all the days
-            List <User> userDayList = userService.getDaysByUsername(request.params("username"));
 
+            for (Day shiftDayName: dayList){
+                List <String> users = userService.getUsersByDay(shiftDayName);
+                shiftDayName.setUsers(users);
+            }
 
-            System.out.println("get route....");
-            System.out.println(userDayList);
             System.out.println(dayList);
-
             shiftMap.put("dayList", dayList);
-            shiftMap.put("userDayList", userDayList);
-//            shiftMap.put("user", userService.getDaysByUsername("SPlenis"));
 
             return new ModelAndView(shiftMap, "admin.handlebars");
 
@@ -181,6 +175,7 @@ public class App {
 
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username"));
+
 
             shiftMap.put("dayList", dayList);
             shiftMap.put("userDayList", userDayList);

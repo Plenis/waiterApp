@@ -9,8 +9,6 @@ import java.util.List;
 public class UserService {
     private final Jdbi jdbi;
     List <User> userList;
-    List <Day> userDayList;
-
 
     public UserService(Jdbi jdbi){
         this.jdbi = jdbi;
@@ -48,19 +46,6 @@ public class UserService {
         );
     }
 
-    public User getUserAndShiftInformation(String user, List<User> shiftDay){
-        String sql = "select * from users " +
-                "join shift on users.id = shift.user_id " +
-                "join week_day on week_day.id = shift.day_id " +
-                "where username = ?";
-
-        return jdbi.withHandle(handle -> handle.createQuery(sql)
-                 .bind("user_id", user)
-                 .bind("day_id", shiftDay)
-                 .mapToBean(User.class)
-                 .findOnly()
-        );
-    }
     public List <Day> dayList(){
         String sql = "Select id, day_name from week_day";
         return jdbi.withHandle(handle -> handle.createQuery(sql)
@@ -69,7 +54,7 @@ public class UserService {
         );
     }
 
-    public Day getOneDay(String dayName){
+    public Day getWorkingDay(String dayName){
         String sql = "Select id, day_name from week_day where day_name = ?";
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
@@ -119,13 +104,15 @@ public class UserService {
 
     }
 
-    public Day getUsersByDay(Day dayName){
-        String sql = "Select users.username from users join shift on users.id = shift.user_id join week_day on week_day.id = shift.day_id where day_name = '" + dayName + "'";
+    public List<String> getUsersByDay(Day dayName){
+        String sql = "select users.username from users " +
+                "join shift on users.id = shift.user_id " +
+                "where shift.day_id = ?";
 
             return jdbi.withHandle(handle -> handle.createQuery(sql)
-                    .bind(1, dayName)
-                    .mapToBean(Day.class)
-                    .findOnly()
+                    .bind(0, dayName.getId())
+                    .mapTo(String.class)
+                    .list()
             );
     }
 

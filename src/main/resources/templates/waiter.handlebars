@@ -47,9 +47,9 @@
 
                 {{#each dayList}}
                 <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Sunday" id="{{day_name}}" name="{{day_name}}" onclick="return shiftDaySelection();">
-                <label class="form-check-label" for="{{day_name}}">
-                    {{day_name}}
+                <input class="form-check-input" type="checkbox" value="Sunday" id="{{dayName}}" name="day_name" onclick=" return shiftDaySelection();">
+                <label class="form-check-label" for="{{dayName}}">
+                    {{dayName}}
                 </label>
             </div>
                     {{/each}}
@@ -75,10 +75,10 @@
                                         <br>
                                         {{#each userDayList}}
                                             {{#each listOfDays}}
-                                        <p class="card-text">{{day_name}}</p>
+                                        <p class="card-text">{{dayName}}</p>
                                             {{/each}}
                                         {{/each}}
-                                        <a href="/waiters/:username" type="submit" class="btn btn-secondary">Update</a>
+                                        <a href="/waiters/{{user.username}}" type="submit" class="btn btn-secondary">Update</a>
                                     </div>
                                 </div>
                             </div>
@@ -90,10 +90,11 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
+
 function shiftDaySelection()
 {
-    var checkboxes = document.getElementsByName("{{day_name}}");
+    var checkboxes = document.getElementsByName("day_name");
     var numberOfCheckedItems = 0;
     for(var i = 0; i < checkboxes.length; i++)
     {
