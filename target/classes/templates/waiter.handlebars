@@ -42,12 +42,12 @@
             <form method="post" action="/waiters/{{user.username}}/confirm" >
                 <h4 align="center"> <i style='font-size:32px' class='far'>&#xf133;</i> Day Select</h4>
                 <br><br>
-                <p align="cemter"><label> Choose ONLY 3 days to work this week:</label></p>
+                <p align="center"><label> Choose ONLY 3 days to work this week:</label></p>
                 <br><br>
 
                 {{#each dayList}}
                 <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Sunday" id="{{dayName}}" name="day_name" onclick=" return shiftDaySelection();">
+                <input class="form-check-input" type="checkbox" value="" id="{{dayName}}" name="{{dayName}}" onclick=" return shiftDaySelection();">
                 <label class="form-check-label" for="{{dayName}}">
                     {{dayName}}
                 </label>
