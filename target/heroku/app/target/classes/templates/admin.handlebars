@@ -6,29 +6,40 @@
 <body>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 <div>
     <div class="main">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-sm-12" align="center">
             <form method="get" action="/days">
                 <div class="form-group">
                     <div class="col-6">
                         <br>
-                        <h2>Waiter Shift Lock</h2>
+                        <h2 align="center"><i style='font-size:34px' class='fas'>&#xf46c;</i>
+                            Waiter Shift Lock</h2>
                         <br><br>
                         <table class="table">
                             <thead>
                             <tr>
                                 {{#each dayList}}
-                                <th>{{day_name}}</th>
+                                <th>{{dayName}}</th>
                                 {{/each}}
                             </tr>
                             </thead>
-                            {{#each user}}
+
                                 <tr>
-                                    <td>{{user.username}} </td>
-                                </tr>
+                            {{#each dayList}}
+                                <td>
+                                    <ul>
+                                        {{#each users }}
+<!--                                            <li>-->
+                                                {{this}}
+<!--                                            </li>-->
+                                        {{/each}}
+                                    </ul>
+                                </td>
                             {{/each}}
+                                </tr>
                         </table>
                     </div>
                 </div>
@@ -37,3 +48,16 @@
     </div>
 </div>
 </body>
+
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+</style>

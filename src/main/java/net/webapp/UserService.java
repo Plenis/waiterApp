@@ -64,6 +64,13 @@ public class UserService {
         );
     }
 
+    public User deleteWorkingDays(User username){
+        String sql = "delete from shift where user_id = ?";
+        
+        jdbi.useHandle(handle -> handle.execute(sql, username.getId()));
+        return username;
+    }
+
     public void addUserDays(Long userId, Long dayId){
         String sql = "Insert into shift (user_id, day_id) VALUES (?, ?)";
 

@@ -59,11 +59,9 @@ public class App {
 
         get("/register", (request, response) -> {
 
-                    System.out.println();
                     return  new ModelAndView(waiter, "register.handlebars");
 
-                },new HandlebarsTemplateEngine()
-        );
+                },new HandlebarsTemplateEngine());
 
         post("/register", (request, response) -> {
 
@@ -85,8 +83,7 @@ public class App {
 
                     return  new ModelAndView(waiter, "register.handlebars");
 
-                },new HandlebarsTemplateEngine()
-        );
+                },new HandlebarsTemplateEngine());
 
         get("/waiters/:username", (request, response) -> {
             Map<String, Object> waiterMap = new HashMap<>();
@@ -131,16 +128,25 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         post("/waiters/:username/confirm",(request, response) -> {
+            String message = null;
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(request.params("username"));
 
             Set<String> daysList = request.queryParams();
 
-            for (String dayName: daysList){
-                Day day = userService.getWorkingDay(dayName);
-                userService.addUserDays(user.getId(), day.getId());
-                waiter.put("weekday", dayName);
+            if (daysList.size() == 3){
+                for (String dayName: daysList) {
+                    Day day = userService.getWorkingDay(dayName);
+                    userService.addUserDays(user.getId(), day.getId());
+                    waiter.put("weekday", dayName);
+                    System.out.println("Shift days locked!");
+                }
+            }else{
+                message = "User selected more than 3 days";
+                System.out.println("You selected -+3 days");
             }
+            
+            waiter.put("message", message);
 
             response.redirect("/waiters/" + request.params("username"));
 
@@ -148,6 +154,39 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
+        get("/waiters/:username/update",(request, response) -> {
+            String username = request.params("username");
+            UserService userService = new UserService(jdbi);
+            User user = userService.getOneUser(request.queryParams("username"));
+//            User user = userService.deleteWorkingDays(username);
+
+            response.redirect("/waiters/" + username);
+//            waiter.get(username);
+
+            System.out.println("gettt");
+//            waiter.get(user);
+
+            return new ModelAndView(waiter, "waiter.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        post("/waiters/:username/update",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
+            String username = request.queryParams("username");
+
+            UserService userService = new UserService(jdbi);
+
+            User user = userService.getOneUser(username);
+            User userLogged = userService.deleteWorkingDays(user);
+
+            System.out.println("user deeets: " + userLogged.getUsername());
+//            userService.deleteWorkingDays(user);
+
+            response.redirect("/waiters/" + username);
+
+            return new ModelAndView(userMap, "waiter.handlebars");
+
+        }, new HandlebarsTemplateEngine());
 
         get("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();
