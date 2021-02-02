@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 
+<style>
+    input[type=text]:disabled {
+  background: #dddddd;
+}
+</style>
+
 <body>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -44,10 +50,10 @@
                 <br><br>
                 <p align="center"><label> Choose ONLY 3 days to work this week:</label></p>
                 <br><br>
-
+                {{message}}
                 {{#each dayList}}
                 <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="{{dayName}}" name="{{dayName}}" onclick="return shiftDaySelection();">
+                <input class="form-check-input" type="checkbox" value="{{dayName}}" id="{{dayName}}" name="{{dayName}}">
                 <label class="form-check-label" for="{{dayName}}">
                     {{dayName}}
                 </label>
@@ -57,11 +63,13 @@
             <br>
             <p align="center"><button type="submit" value="Sumbit" class="btn btn-secondary">Confirm</button></p>
         </form>
+
+            <p align="center"> <a href="/waiters/{{user.username}}/update"><button type="submit" class="btn btn-secondary">Update</button></a></p>
+
         </div>
 
 
         <div class="col-sm" align="center">
-            <form method="post" action="/waiters/ {{user.username}}/update">
                 <div>
                     <div class="col-md-6 col-sm-12">
                         <h4 align="center"><i style='font-size:32px' class='fas'>&#xf274;</i>
@@ -78,36 +86,15 @@
                                         <p class="card-text">{{dayName}}</p>
                                             {{/each}}
                                         {{/each}}
-                                       <p align="center"> <button type="submit" class="btn btn-secondary">Update</button></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br>
                     </div>
-            </form>
-        </div>
-    </div>
+              </div>
+      </div>
 </div>
-
-<script type="text/javascript">
-
-function shiftDaySelection()
-{
-    var checkboxes = document.getElementsByName("day_name");
-    var numberOfCheckedItems = 0;
-    for(var i = 0; i < checkboxes.length; i++)
-    {
-        if(checkboxes[i].checked)
-            numberOfCheckedItems++;
-    }
-    if(numberOfCheckedItems > 3)
-    {
-        alert("You can't select more than three working days!");
-        return false;
-    }
-}
-</script>
 
 </body>
 </html>
