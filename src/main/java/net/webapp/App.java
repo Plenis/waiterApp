@@ -139,11 +139,11 @@ public class App {
                     Day day = userService.getWorkingDay(dayName);
                     userService.addUserDays(user.getId(), day.getId());
                     waiter.put("weekday", dayName);
-                    System.out.println("Shift days locked!");
+                    System.out.println("Shift " + dayName + " locked!");
                 }
             }else{
                 message = "User selected more than 3 days";
-                System.out.println("You selected -+3 days");
+                System.out.println("You selected more / less than 3 days");
             }
             
             waiter.put("message", message);
@@ -155,38 +155,40 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         get("/waiters/:username/update",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
+
             UserService userService = new UserService(jdbi);
-            User user = userService.getOneUser(request.queryParams("username"));
-//            User user = userService.deleteWorkingDays(username);
+            User user = userService.getOneUser(username);
+            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
+
+            userMap.put("user", deleteUserDays);
 
             response.redirect("/waiters/" + username);
-//            waiter.get(username);
-
-            System.out.println("gettt");
-//            waiter.get(user);
 
             return new ModelAndView(waiter, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
-        post("/waiters/:username/update",(request, response) -> {
-            Map<String, Object> userMap = new HashMap<>();
-            String username = request.queryParams("username");
-
-            UserService userService = new UserService(jdbi);
-
-            User user = userService.getOneUser(username);
-            User userLogged = userService.deleteWorkingDays(user);
-
-            System.out.println("user deeets: " + userLogged.getUsername());
-//            userService.deleteWorkingDays(user);
-
-            response.redirect("/waiters/" + username);
-
-            return new ModelAndView(userMap, "waiter.handlebars");
-
-        }, new HandlebarsTemplateEngine());
+//        post("/waiters/:username/update",(request, response) -> {
+//            Map<String, Object> userMap = new HashMap<>();
+//            String username = request.queryParams("username");
+//
+//            UserService userService = new UserService(jdbi);
+//            User user = userService.getOneUser(username);
+//
+//            System.out.println("User: " + user);
+//
+//            Shift userLogged = userService.deleteWorkingDays(user.getId());
+//
+//            System.out.println("user deeets: " + userLogged);
+//            userMap.put("user", userLogged);
+//
+//            response.redirect("/waiters/" + username);
+//
+//            return new ModelAndView(userMap, "waiter.handlebars");
+//
+//        }, new HandlebarsTemplateEngine());
 
         get("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();
@@ -214,15 +216,35 @@ public class App {
 
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username"));
+            Shift resetUsersShift = userService.resetUsers();
 
 
             shiftMap.put("dayList", dayList);
             shiftMap.put("userDayList", userDayList);
-            shiftMap.put("user", userService.getDaysByUsername(request.params("")));
+//            shiftMap.put("user", userService.getDaysByUsername(request.params("")));
+            shiftMap.put("user", resetUsersShift);
 
             return new ModelAndView(shiftMap, "admin.handlebars");
 
         }, new HandlebarsTemplateEngine());
+
+//        post("/days/confirm", (request, response) -> {
+//            Map<String, Object> shiftMap = new HashMap<>();
+//
+//            UserService userService = new UserService(jdbi);
+//
+//            List <Day> dayList = userService.dayList(); // all the days
+//            List <User> userDayList = userService.getDaysByUsername(request.params("username"));
+//
+//
+//            shiftMap.put("dayList", dayList);
+//            shiftMap.put("userDayList", userDayList);
+//            shiftMap.put("user", userService.getDaysByUsername(request.params("")));
+//
+//            return new ModelAndView(shiftMap, "admin.handlebars");
+//
+//        }, new HandlebarsTemplateEngine());
+
 
     }
 //        catch (URISyntaxException e) {

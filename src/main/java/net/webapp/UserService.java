@@ -64,11 +64,11 @@ public class UserService {
         );
     }
 
-    public User deleteWorkingDays(User username){
+    public Shift deleteWorkingDays(Long userId){
         String sql = "delete from shift where user_id = ?";
         
-        jdbi.useHandle(handle -> handle.execute(sql, username.getId()));
-        return username;
+        jdbi.useHandle(handle -> handle.execute(sql, userId));
+        return null;
     }
 
     public void addUserDays(Long userId, Long dayId){
@@ -121,6 +121,14 @@ public class UserService {
                     .mapTo(String.class)
                     .list()
             );
+    }
+
+    public Shift resetUsers(){
+        String sql = "delete * from shift";
+
+        jdbi.useHandle(handle -> handle.execute(sql)
+        );
+        return null;
     }
 
 }
