@@ -31,7 +31,7 @@
                             {{#each dayList}}
                                 <td>
                                     <ul>
-                                        {{#each users }}
+                                        {{#each users}}
 <!--                                            <li>-->
                                                 {{this}}
 <!--                                            </li>-->
@@ -42,10 +42,10 @@
                                 </tr>
                         </table>
                         <p align="center"> <button type="submit" class="btn btn-secondary">Update</button></p>
-                        <p align="center"> <a href="/days"> <button type="reset" class="btn btn-secondary">Rest</button> </a></p>
                     </div>
                 </div>
             </form>
+            <p align="center"> <a href="/days/reset"> <button type="submit" class="btn btn-secondary">Reset</button> </a></p>
         </div>
     </div>
 </div>
@@ -53,13 +53,22 @@
 
 <style>
 table {
-  border-collapse: collapse;
-  width: 100%;
+  padding: 0;
+  margin: 10;
+  border-left: none;
+  border-right: none;
+  text-align:right;
+  border-collapse:separate;
+  border-spacing: 0 2px;
 }
 
-th, td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
+table tr       {background:#fff;}
+table tr:hover {background:#EBF7FC;}
+
+table tr       td             {padding:6px 8px;}
+table tr       td:first-child {border-left: 3px solid #fff;}
+table tr       td:last-child  {border-right:3px solid #fff;}
+table tr:hover td:first-child {border-left: 3px solid #4EB2E2;}
+table tr:hover td:last-child  {border-right:3px solid #4EB2E2;}
+
 </style>

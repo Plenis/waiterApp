@@ -166,29 +166,9 @@ public class App {
 
             response.redirect("/waiters/" + username);
 
-            return new ModelAndView(waiter, "waiter.handlebars");
+            return new ModelAndView(userMap, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
-
-//        post("/waiters/:username/update",(request, response) -> {
-//            Map<String, Object> userMap = new HashMap<>();
-//            String username = request.queryParams("username");
-//
-//            UserService userService = new UserService(jdbi);
-//            User user = userService.getOneUser(username);
-//
-//            System.out.println("User: " + user);
-//
-//            Shift userLogged = userService.deleteWorkingDays(user.getId());
-//
-//            System.out.println("user deeets: " + userLogged);
-//            userMap.put("user", userLogged);
-//
-//            response.redirect("/waiters/" + username);
-//
-//            return new ModelAndView(userMap, "waiter.handlebars");
-//
-//        }, new HandlebarsTemplateEngine());
 
         get("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();
@@ -202,7 +182,7 @@ public class App {
                 shiftDayName.setUsers(users);
             }
 
-            System.out.println(dayList);
+//            System.out.println(dayList);
             shiftMap.put("dayList", dayList);
 
             return new ModelAndView(shiftMap, "admin.handlebars");
@@ -216,15 +196,23 @@ public class App {
 
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username"));
-            Shift resetUsersShift = userService.resetUsers();
-
 
             shiftMap.put("dayList", dayList);
             shiftMap.put("userDayList", userDayList);
-//            shiftMap.put("user", userService.getDaysByUsername(request.params("")));
-            shiftMap.put("user", resetUsersShift);
-
             return new ModelAndView(shiftMap, "admin.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        get("/days/reset",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
+            UserService userService = new UserService(jdbi);
+            Shift resetShifts = userService.resetUsers();
+
+            userMap.put("user", resetShifts);
+
+            response.redirect("/days");
+
+            return new ModelAndView(userMap, "admin.handlebars");
 
         }, new HandlebarsTemplateEngine());
 

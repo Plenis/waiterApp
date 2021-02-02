@@ -124,7 +124,7 @@ public class UserService {
     }
 
     public Shift resetUsers(){
-        String sql = "delete * from shift";
+        String sql = "delete from shift";
 
         jdbi.useHandle(handle -> handle.execute(sql)
         );
