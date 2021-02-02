@@ -216,22 +216,34 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-//        post("/days/confirm", (request, response) -> {
-//            Map<String, Object> shiftMap = new HashMap<>();
-//
-//            UserService userService = new UserService(jdbi);
-//
-//            List <Day> dayList = userService.dayList(); // all the days
-//            List <User> userDayList = userService.getDaysByUsername(request.params("username"));
-//
-//
-//            shiftMap.put("dayList", dayList);
-//            shiftMap.put("userDayList", userDayList);
-//            shiftMap.put("user", userService.getDaysByUsername(request.params("")));
-//
-//            return new ModelAndView(shiftMap, "admin.handlebars");
-//
-//        }, new HandlebarsTemplateEngine());
+        get("/days/confirm", (request, response) -> {
+            Map<String, Object> shiftMap = new HashMap<>();
+
+            UserService userService = new UserService(jdbi);
+
+            List <Day> dayList = userService.dayList(); // all the days
+            List <User> userDayList = userService.getDaysByUsername(request.params("username"));
+
+
+            shiftMap.put("dayList", dayList);
+            shiftMap.put("userDayList", userDayList);
+            shiftMap.put("user", userService.getDaysByUsername(request.params("")));
+
+            return new ModelAndView(shiftMap, "admin.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        get("/all_waiters", ((request, response) -> {
+            Map <String, Object> usersMap = new HashMap<>();
+            UserService userService = new UserService(jdbi);
+            List <User> users = userService.getAllUsers();
+
+            System.out.println(users);
+
+//            waiter.get(user);
+            usersMap.put("user", users);
+            return new ModelAndView(usersMap, "user.handlebars");
+        }), new HandlebarsTemplateEngine());
 
 
     }

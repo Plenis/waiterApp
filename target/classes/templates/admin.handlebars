@@ -19,6 +19,7 @@
                             Waiter Shift Lock</h2>
                         <br><br>
                         <table class="table">
+
                             <thead>
                             <tr>
                                 {{#each dayList}}
@@ -40,12 +41,16 @@
                                 </td>
                             {{/each}}
                                 </tr>
+
                         </table>
-                        <p align="center"> <button type="submit" class="btn btn-secondary">Update</button></p>
                     </div>
                 </div>
             </form>
+
+            <p align="center"> <a href="#"><button type="submit" class="btn btn-secondary">Update</button> </a></p>
             <p align="center"> <a href="/days/reset"> <button type="submit" class="btn btn-secondary">Reset</button> </a></p>
+            <p align="center"> <a href="/all_waiters"> <button type="submit" class="btn btn-secondary">View All Waiters</button> </a></p>
+
         </div>
     </div>
 </div>
@@ -57,9 +62,14 @@ table {
   margin: 10;
   border-left: none;
   border-right: none;
-  text-align:right;
+  text-align:center;
   border-collapse:separate;
   border-spacing: 0 2px;
+  width: 100%;
+}
+
+ul{
+   text-align:center;
 }
 
 table tr       {background:#fff;}
