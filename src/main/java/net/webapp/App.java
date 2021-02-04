@@ -224,7 +224,6 @@ public class App {
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username"));
 
-
             shiftMap.put("dayList", dayList);
             shiftMap.put("userDayList", userDayList);
             shiftMap.put("user", userService.getDaysByUsername(request.params("")));

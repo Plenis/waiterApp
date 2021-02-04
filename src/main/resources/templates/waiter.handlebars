@@ -11,6 +11,25 @@
     input[type=text]:disabled {
   background: #dddddd;
 }
+
+.ui-progressbar-value { background: lightgreen; }
+.progressbar-container {
+  position: relative;
+  width: 350px;
+}
+
+.progressbar-bar {
+  height: 25px;
+margin: 10px 0;
+border-radius: 7px;
+}
+
+.progressbar-label {
+  position: absolute;
+  top: 2px;
+  left: 45%;
+  z-index: 2;
+}
 </style>
 
 <body>
@@ -53,7 +72,7 @@
                 {{message}}
                 {{#each dayList}}
                 <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="{{dayName}}" id="{{dayName}}" name="{{dayName}}">
+                <input class="form-check-input" type="checkbox" value="{{dayName}}" id="checkbox" name="{{dayName}}">
                 <label class="form-check-label" for="{{dayName}}">
                     {{dayName}}
                 </label>
@@ -83,7 +102,11 @@
                                         <br>
                                         {{#each userDayList}}
                                             {{#each listOfDays}}
-                                        <p class="card-text">{{dayName}}</p>
+                                        <p id="display" class="card-text">{{dayName}}</p>
+                                                <div class="progressbar-container">
+                                                    <div class="progressbar-bar"></div>
+                                                    <div class="progressbar-label"></div>
+                                                </div>
                                             {{/each}}
                                         {{/each}}
                                     </div>
@@ -95,6 +118,6 @@
               </div>
       </div>
 </div>
-
+<script ></script>
 </body>
 </html>
