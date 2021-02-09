@@ -178,7 +178,22 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-        post("/waiters/:username/edit",(request, response) -> {
+//        post("/edit",(request, response) -> {
+//            Map<String, Object> userMap = new HashMap<>();
+//            String username = request.queryParams("username");
+//
+//            UserService userService = new UserService(jdbi);
+//            User user = userService.getOneUser(username);
+////            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
+//
+////            userMap.put("user", deleteUserDays);
+//
+////            response.redirect("/waiters/" + username);
+//
+//            return new ModelAndView(userMap, "edit.handlebars");
+//
+//        }, new HandlebarsTemplateEngine());
+        post("/:username/edit",(request, response) -> {
             Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
 
@@ -188,11 +203,29 @@ public class App {
 
 //            userMap.put("user", deleteUserDays);
 
-            response.redirect("/waiters/" + username + "/edit");
+            response.redirect( username + "/edit");
 
             return new ModelAndView(userMap, "edit.handlebars");
 
         }, new HandlebarsTemplateEngine());
+
+
+        get("/:username/edit",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
+            String username = request.params("username");
+
+            UserService userService = new UserService(jdbi);
+            User user = userService.getOneUser(username);
+//            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
+
+//            userMap.put("user", deleteUserDays);
+
+//            response.redirect( username + "/edit");
+
+            return new ModelAndView(userMap, "edit.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
 
         get("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();
