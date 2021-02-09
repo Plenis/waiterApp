@@ -70,20 +70,23 @@ border-radius: 7px;
                 <p align="center"><label> Choose ONLY 3 days to work this week:</label></p>
                 <br><br>
                 {{message}}
+
                 {{#each dayList}}
                 <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="{{dayName}}" id="checkbox" name="{{dayName}}">
+
+                <input class="form-check-input" type="checkbox" value="{{dayName}}" id="checkbox" name="{{dayName}}"
+                      >
                 <label class="form-check-label" for="{{dayName}}">
                     {{dayName}}
                 </label>
             </div>
-                    {{/each}}
+                {{/each}}
 
             <br>
-            <p align="center"><button type="submit" value="Sumbit" class="btn btn-secondary">Confirm</button></p>
+            <p align="center"><button type="submit" value="Sumbit" class="btn btn-secondary">Confirm Shift</button></p>
         </form>
 
-            <p align="center"> <a href="/waiters/{{user.username}}/update"><button type="submit" class="btn btn-secondary">Update</button></a></p>
+            <p align="center"> <a href="/waiters/{{user.username}}/update"><button type="submit" class="btn btn-secondary">Update Shift</button></a></p>
 
         </div>
 
@@ -118,6 +121,25 @@ border-radius: 7px;
               </div>
       </div>
 </div>
-<script ></script>
+
+<!--<SCRIPT LANGUAGE="JavaScript">-->
+
+<!--function Check(chk)-->
+<!--{-->
+<!--if(document.form-check.checked==true){-->
+<!--for (i = 0; i < chk.length; i++)-->
+<!--chk[i].checked = true ;-->
+<!--}else{-->
+
+<!--for (i = 0; i < chk.length; i++)-->
+<!--chk[i].checked = false ;-->
+<!--}-->
+<!--}-->
+
+<!--</script>-->
+
+<script src="public/js/function.js"></script>
+
+
 </body>
 </html>

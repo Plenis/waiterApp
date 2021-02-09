@@ -8,7 +8,7 @@ public class Day {
     private String dayName;
 //    private Long user_id;
     private List<String> users;
-
+    boolean isWorking = true;
 
     public Day() { }
 
@@ -39,6 +39,15 @@ public class Day {
 
     public void setUsers(List<String> users) {
         this.users = users;
+    }
+
+
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public void setWorking(boolean working) {
+        isWorking = working;
     }
 
     @Override

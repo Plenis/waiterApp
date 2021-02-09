@@ -90,10 +90,18 @@ public class App {
 
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(request.params("username"));
+            Day dayWorking = new Day();
+//            Boolean isWorkingDay = dayWorking.isWorking();
 
-//            List<User> allUsers = userService.getAllUsers();
+            //            List<User> allUsers = userService.getAllUsers();
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
+
+//            for (Day isWorkingDay: dayList){
+//                isWorkingDay.setWorking(false);
+//
+//                System.out.println("isWorkingDay: " + isWorkingDay);
+//            }
 
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
@@ -139,14 +147,14 @@ public class App {
                     Day day = userService.getWorkingDay(dayName);
                     userService.addUserDays(user.getId(), day.getId());
                     waiter.put("weekday", dayName);
-                    System.out.println("Shift " + dayName + " locked!");
                 }
-            }else{
+            }
+            else{
                 message = "User selected more than 3 days";
                 System.out.println("You selected more / less than 3 days");
             }
             
-            waiter.put("message", message);
+            waiter.get(message);
 
             response.redirect("/waiters/" + request.params("username"));
 
@@ -167,6 +175,22 @@ public class App {
             response.redirect("/waiters/" + username);
 
             return new ModelAndView(userMap, "waiter.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        post("/waiters/:username/edit",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
+            String username = request.params("username");
+
+            UserService userService = new UserService(jdbi);
+            User user = userService.getOneUser(username);
+//            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
+
+//            userMap.put("user", deleteUserDays);
+
+            response.redirect("/waiters/" + username + "/edit");
+
+            return new ModelAndView(userMap, "edit.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
@@ -243,8 +267,6 @@ public class App {
             usersMap.put("user", users);
             return new ModelAndView(usersMap, "user.handlebars");
         }), new HandlebarsTemplateEngine());
-
-
     }
 //        catch (URISyntaxException e) {
 //            e.printStackTrace();

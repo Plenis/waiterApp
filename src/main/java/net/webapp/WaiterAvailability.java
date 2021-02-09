@@ -1,7 +1,7 @@
 package net.webapp;
 
 public class WaiterAvailability {
-
+//use if condition with handlers
 
     /* template steps:
     *    2 screens, one for the waiter and other for the admin checking waiters shift days
