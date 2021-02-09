@@ -10,6 +10,7 @@ public class User {
     String username;
     String password;
     List <Day> listOfDays = new ArrayList<>();
+//    String selected;
 
 
     public User() { }
@@ -69,6 +70,7 @@ public class User {
     public String getPassword() {
         return password;
     }
+
 
     @Override
     public String toString() {

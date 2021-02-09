@@ -6,9 +6,9 @@ public class Day {
 
     private Long id;
     private String dayName;
-//    private Long user_id;
     private List<String> users;
     boolean isWorking = true;
+    String selected;
 
     public Day() { }
 
@@ -39,6 +39,14 @@ public class Day {
 
     public void setUsers(List<String> users) {
         this.users = users;
+    }
+
+    public String getSelected() {
+        return selected;
+    }
+
+    public void setSelected(String selected) {
+        this.selected = selected;
     }
 
 

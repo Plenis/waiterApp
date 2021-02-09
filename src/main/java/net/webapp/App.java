@@ -90,18 +90,24 @@ public class App {
 
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(request.params("username"));
-            Day dayWorking = new Day();
-//            Boolean isWorkingDay = dayWorking.isWorking();
+            List <Day> newDays = new ArrayList<>();
 
-            //            List<User> allUsers = userService.getAllUsers();
             List <Day> dayList = userService.dayList(); // all the days
             List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
 
-//            for (Day isWorkingDay: dayList){
-//                isWorkingDay.setWorking(false);
-//
-//                System.out.println("isWorkingDay: " + isWorkingDay);
-//            }
+            for (Day day: dayList){
+
+                for (User userLoggedIn: userDayList){
+
+                    for (Day selectedDay: userLoggedIn.getListOfDays()){
+
+                        if(day.getDayName().equals(selectedDay.getDayName())){
+                            day.setSelected("checked");
+                        }
+                    }
+                }
+                newDays.add(day);
+            }
 
             String firstname = request.queryParams("firstname");
             String lastname = request.queryParams("lastname");
@@ -110,6 +116,7 @@ public class App {
             waiterMap.put("user", user);
             waiterMap.put("userDayList", userDayList);
             waiterMap.put("dayList", dayList);
+            waiterMap.put("newDays", newDays);
 
             waiter.get(firstname);
             waiter.get(lastname);
@@ -209,7 +216,6 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-
         get("/:username/edit",(request, response) -> {
             Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
@@ -225,7 +231,6 @@ public class App {
             return new ModelAndView(userMap, "edit.handlebars");
 
         }, new HandlebarsTemplateEngine());
-
 
         get("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();

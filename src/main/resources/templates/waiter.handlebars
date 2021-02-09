@@ -71,11 +71,11 @@ border-radius: 7px;
                 <br><br>
                 {{message}}
 
-                {{#each dayList}}
+                {{#each newDays}}
                 <div class="form-check">
 
                 <input class="form-check-input" type="checkbox" value="{{dayName}}" id="checkbox" name="{{dayName}}"
-                      >
+                     {{selected}} >
                 <label class="form-check-label" for="{{dayName}}">
                     {{dayName}}
                 </label>
