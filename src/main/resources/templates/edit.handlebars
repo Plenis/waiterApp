@@ -28,13 +28,35 @@
 <!--                <h3><i style="font-size:24px" class="fa">&#xf0c0;</i>-->
 <!--                    List of Waiters</h3>-->
 
-        <h2 class="text-muted" align="center"><strong>
-            You are viewing ... {{user.username}}</strong>
-        </h2>
-
-
-
+        <h2 class="p1"  align="center"><strong>
+            You are viewing Shift information for </strong>
+            <br>
+      <strong class="p2"> {{user.username}} </strong></h2>
     </div>
+
+    <div class="row">
+        <div class="column" style="background-color:#aaa;" align="center">
+            <h2>Shifts Locked by {{user.username}} for this week:</h2>
+            <div class="card" style="width: 18rem;">
+{{#each userDayList}}
+    {{#each listOfDays}}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{dayName}}</li>
+                </ul>
+        {{/each}}
+{{/each}}
+            </div>
+            <br>
+<!--           <a href="/edit"> <button type="submit" class="submit" value="Submit">Change this LOCK?</button></a>-->
+        </div>
+
+        <div class="column" style="background-color:#bbb;" align="center">
+            <h2>User updated shifts</h2>
+<!--            <p>?????</p>-->
+        </div>
+    </div>
+
+
     <br>
     <p align="center"> <a href="/days"><button type="submit" class="btn btn-secondary">Back</button> </a></p>
 
@@ -42,7 +64,34 @@
 </body>
 
 <style>
+.p1 {
+  font-family: "Times New Roman", Times, serif;
+}
 
+.p2 {
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 45px;
+  text-decoration: underline;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 </style>
 
 </html>

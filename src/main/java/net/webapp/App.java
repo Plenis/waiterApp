@@ -46,14 +46,12 @@ public class App {
 
     public static void main(String[] args) throws URISyntaxException {
 
-//        try {
         port(getHerokuAssignedPort());
         staticFiles.location("/public");
 
         Jdbi jdbi = getJdbiDatabaseConnection("jdbc:postgresql://localhost/waiters_app?username=sino&password=123");
 
         Map<String, Object> waiter = new HashMap<>();
-
 
         get("/", (request, response) -> new ModelAndView(waiter, "login.handlebars"), new HandlebarsTemplateEngine());
 
@@ -185,21 +183,6 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-//        post("/edit",(request, response) -> {
-//            Map<String, Object> userMap = new HashMap<>();
-//            String username = request.queryParams("username");
-//
-//            UserService userService = new UserService(jdbi);
-//            User user = userService.getOneUser(username);
-////            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
-//
-////            userMap.put("user", deleteUserDays);
-//
-////            response.redirect("/waiters/" + username);
-//
-//            return new ModelAndView(userMap, "edit.handlebars");
-//
-//        }, new HandlebarsTemplateEngine());
         post("/:username/edit",(request, response) -> {
             Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
@@ -219,12 +202,30 @@ public class App {
         get("/:username/edit",(request, response) -> {
             Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
+            String firstname = request.params("firstname");
+            String lastname = request.params("lastname");
+
+            List <Day> days = new ArrayList<>();
 
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(username);
+            List <Day> dayList = userService.dayList(); // all the days
+            List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
 //            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
 
-//            userMap.put("user", deleteUserDays);
+//            for (Day dayName: dayList){
+//                for (User userName: userDayList){
+////                    dayName.getDayName().equals(userName.getUsername());
+//                }
+//            }
+
+            userMap.put("user", user);
+            userMap.put("userDayList", userDayList);
+            userMap.put("dayList", dayList);
+            userMap.put("firstname", firstname);
+
+            userMap.get(firstname);
+            userMap.get(lastname);
 
 //            response.redirect( username + "/edit");
 
@@ -306,8 +307,4 @@ public class App {
             return new ModelAndView(usersMap, "user.handlebars");
         }), new HandlebarsTemplateEngine());
     }
-//        catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
