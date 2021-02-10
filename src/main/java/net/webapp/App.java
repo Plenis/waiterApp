@@ -205,6 +205,8 @@ public class App {
             String firstname = request.params("firstname");
             String lastname = request.params("lastname");
 
+            List <Day> days = new ArrayList<>();
+
             UserService userService = new UserService(jdbi);
             User user = userService.getOneUser(username);
             List <Day> dayList = userService.dayList(); // all the days
