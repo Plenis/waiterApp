@@ -16,29 +16,30 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!--Custom styles-->
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="public/css/styles.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body>
 <br><br>
-<div class="container">
+<div class="container" align="center">
+
     <div class="d-flex justify-content-center h-100">
-<!--        <div class="card">-->
-<!--            <div class="card-header">-->
-<!--                <h3><i style="font-size:24px" class="fa">&#xf0c0;</i>-->
-<!--                    List of Waiters</h3>-->
 
-        <h2 class="text-muted" align="center"><strong>
-            You are viewing ... {{user.username}}</strong>
-        </h2>
-
-
-
+        <h2 class="p1"  align="center"><strong>
+            Edit shifts page</strong>
+            {{user}}
+            {{users}}
+            <br>
+            <strong class="p2"> {{user.username}} </strong></h2>
     </div>
-    <br>
-    <p align="center"> <a href="/days"><button type="submit" class="btn btn-secondary">Back</button> </a></p>
 
 </div>
+
+    <p align="center"> <a><button type="submit" class="btn btn-secondary">Submit</button> </a></p>
+
 </body>
 
 <style>

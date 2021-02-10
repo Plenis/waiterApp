@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+{{> header.handlebars}}
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <title>The Coffee Shop</title>
+    <!--Made with love by Mutiullah Samim -->
+
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="public/css/styles.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+$(document).ready(function(){
+  $("p").click(function(){
+    alert("Shifts Locked for {{user.username}}!");
+  });
+});
+</script>
+</head>
+
+<body>
+<br><br>
+<div class="container" align="center">
+    <div class="d-flex justify-content-center h-100">
+
+        <h2 class="p1"  align="center"><strong>
+            You are viewing Shift information for </strong>
+            <br>
+      <strong class="p2"> {{user.username}} </strong></h2>
+    </div>
+
+    <br>
+    <div class="card" style="width: 18rem;" align="center">
+
+{{#each userDayList}}
+    {{#each listOfDays}}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{dayName}}</li>
+                </ul>
+        {{/each}}
+{{/each}}
+
+    </div>
+
+    <br>
+    <link>
+    <p><a href="/days"><button type="button" id="button1" class="btn btn-outline-success btn-sm">Accept</button></a></p>
+<!--    <br>-->
+    <a href="/edit"><button type="button" id="button2" class="btn btn-outline-danger btn-sm"> Reject</button></a>
+    </div>
+    <br>
+<!--    <p align="center"> <a href="/days"><button type="submit" class="btn btn-secondary">Back</button> </a></p>-->
+
+</body>
+
+<style>
+.p1 {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.p2 {
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 45px;
+  text-decoration: underline;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+#button1, #button2 {
+display:inline-block;
+}
+</style>
+
+</html>
