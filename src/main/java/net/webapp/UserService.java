@@ -71,6 +71,13 @@ public class UserService {
         return null;
     }
 
+    public Shift updateWorkingDay(Long userId){
+        String sql = "update shift where user_id = ?";
+
+        jdbi.useHandle(handle -> handle.execute(sql, userId));
+        return null;
+    }
+
     public void addUserDays(Long userId, Long dayId){
         String sql = "Insert into shift (user_id, day_id) VALUES (?, ?)";
 

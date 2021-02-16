@@ -24,29 +24,91 @@
 
 <body>
 <br><br>
-<div class="container" align="center">
 
+<div class="container" align="center">
     <div class="d-flex justify-content-center h-100">
 
         <h2 class="p1"  align="center"><strong>
-            Edit shifts page</strong>
+            Edit shifts for </strong>
             {{user}}
             {{users}}
             <br>
             <strong class="p2"> {{user.username}} </strong></h2>
+    </div>
+</div>
+
+    <div class="col-sm">
+        <form method="post" action="/edit" >
+            <h4 align="center"> <i style='font-size:32px' class='far'>&#xf133;</i> Day Select</h4>
+            <br><br>
+            <p align="center"><label> CHOOSE ONLY 3 WORKING DAYS</label></p>
+            <br><br>
+
+        {{#each dayList}}
+            <div class="form-check">
+
+                <input class="form-check-input" type="checkbox" value="{{dayName}}" id="checkbox" name="{{dayName}}"
+                    {{selected}} >
+                <label class="form-check-label" for="{{dayName}}">
+                    {{dayName}}
+                </label>
+            </div>
+        {{/each}}
+
+            {{#each dayList}}
+                <div class="form-check">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="{{dayName}}" value="{{dayName}}">
+                        <label class="form-check-label" for="{{dayName}}">{{dayName}}</label>
+                    </div>
+                </div>
+            {{/each}}
+
+            <br>
+<!--            <p align="center"><button type="submit" value="Sumbit" class="btn btn-secondary">Confirm Shift</button></p>-->
+        </form>
+    </div>
+
+    <div class="container">
+    <div class="col-sm" align="center">
+        <div>
+            <div class="col-md-6 col-sm-12">
+<!--                <h4 align="center"><i style='font-size:32px' class='fas'>&#xf274;</i>-->
+<!--                    Shift Lock</h4>-->
+<!--                {{message}}-->
+<!--                <div class="row">-->
+                    <!--                            <div class="col-sm-6">-->
+
+<!--                    <div class="card">-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title" align="center"> Shifts locked for:</h5>-->
+<!--                            <br>-->
+<!--                            {{#each userDayList}}-->
+<!--                                {{#each listOfDays}}-->
+<!--                                    <p id="display" class="card-text">{{dayName}}</p>-->
+<!--                                    <div class="progressbar-container">-->
+<!--                                        <div class="progressbar-bar"></div>-->
+<!--                                        <div class="progressbar-label"></div>-->
+<!--                                    </div>-->
+<!--                                {{/each}}-->
+<!--                            {{/each}}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <br>
+        </div>
+    </div>
+
     </div>
 
     <br>
     <p align="center"> <a href="/days"><button type="submit" class="btn btn-secondary">Back</button> </a></p>
 
 </div>
-
-    <p align="center"> <a><button type="submit" class="btn btn-secondary">Submit</button> </a></p>
-
 </body>
 
 <style>
-
 </style>
 
 </html>
