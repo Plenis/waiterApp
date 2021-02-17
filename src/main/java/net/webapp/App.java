@@ -50,7 +50,7 @@ public class App {
         port(getHerokuAssignedPort());
         staticFiles.location("/public");
 
-        Jdbi jdbi = getJdbiDatabaseConnection("jdbc:postgresql://localhost/d1utfh5k9tbqjc?sslmode=require&username=jnftrjtmvjxbnl&password=123");
+        Jdbi jdbi = getJdbiDatabaseConnection("jdbc:postgresql://localhost/waiters_app?sslmode=require&username=codex&password=123");
 
         Map<String, Object> waiter = new HashMap<>();
 
