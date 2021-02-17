@@ -46,7 +46,7 @@ public class App {
     }
 
     public static void main(String[] args) throws URISyntaxException {
-c
+
         port(getHerokuAssignedPort());
         staticFiles.location("/public");
 
