@@ -181,11 +181,11 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-        post("/:username/edit",(request, response) -> {
+        post("/:username/view",(request, response) -> {
             Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
 
-            UserService userService = new UserService(jdbi);
+//            UserService userService = new UserService(jdbi);
 //            User user = userService.getOneUser(username);
 
             response.redirect( username + "/edit");
@@ -194,7 +194,7 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-        get("/:username/edit",(request, response) -> {
+        get("/:username/view",(request, response) -> {
             Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
             String firstname = request.params("firstname");
@@ -217,6 +217,62 @@ public class App {
             return new ModelAndView(userMap, "view.handlebars");
 
         }, new HandlebarsTemplateEngine());
+
+        get("/edit",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
+            String username = request.params("username");
+            String firstname = request.params("firstname");
+            String lastname = request.params("lastname");
+
+            UserService userService = new UserService(jdbi);
+            User user = userService.getOneUser(username);
+            List <Day> newDays = new ArrayList<>();
+
+            List <Day> dayList = userService.dayList(); // all the days
+            List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
+
+            for (Day day: dayList){
+
+                for (User userLoggedIn: userDayList){
+
+                    for (Day selectedDay: userLoggedIn.getListOfDays()){
+
+                        if(day.getDayName().equals(selectedDay.getDayName())){
+                            day.setSelected("checked");
+                        }
+                    }
+                }
+                newDays.add(day);
+            }
+
+            userMap.put("user", user);
+            System.out.println("user: " + user);
+            userMap.put("userDayList", userDayList);
+            userMap.put("dayList", dayList);
+            userMap.put("firstname", firstname);
+
+            userMap.get(firstname);
+            userMap.get(lastname);
+
+            return new ModelAndView(userMap, "edit.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        post("/edit",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
+            String username = request.params("username");
+//
+//            UserService userService = new UserService(jdbi);
+//            User user = userService.getOneUser(username);
+
+
+
+            response.redirect( username + "/view");
+
+            return new ModelAndView(userMap, "view.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
 
         get("/days", (request, response) -> {
             Map<String, Object> shiftMap = new HashMap<>();
