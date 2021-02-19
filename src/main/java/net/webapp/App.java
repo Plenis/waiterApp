@@ -80,7 +80,7 @@ public class App {
 
             response.redirect("/waiters/" + username);
 
-            return  new ModelAndView(waiter, "register.handlebars");
+            return null;
 
         },new HandlebarsTemplateEngine());
 
