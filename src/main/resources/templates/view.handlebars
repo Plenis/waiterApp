@@ -19,13 +19,20 @@
     <link rel="stylesheet" type="text/css" href="public/css/styles.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script>
 $(document).ready(function(){
   $("p").click(function(){
     alert("Shifts Locked for {{user.username}}!");
   });
 });
-</script>
+
+$(document).ready(function(){
+  $("a").click(function(){
+    alert("Shifts for {{user.username}} have been Rejected and deleted!");
+  });
+});
+    </script>
 </head>
 
 <body>
@@ -55,7 +62,7 @@ $(document).ready(function(){
     <br>
     <link>
     <p><a href="/days"><button type="button" id="button1" class="btn btn-outline-success btn-sm">Accept</button></a></p>
-    <a href="/edit"><button type="button" id="button2" class="btn btn-outline-danger btn-sm"> Reject</button></a>
+    <a href="/days"><button type="button" id="button2" class="btn btn-outline-danger btn-sm"> Reject</button></a>
     </div>
     <br>
 </body>
