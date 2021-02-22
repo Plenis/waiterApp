@@ -138,6 +138,22 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
+        get("/waiters/:username/update",(request, response) -> {
+            Map<String, Object> userMap = new HashMap<>();
+            String username = request.params("username");
+
+            UserService userService = new UserService(jdbi);
+            User user = userService.getOneUser(username);
+            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
+
+            userMap.put("user", deleteUserDays);
+
+            response.redirect("/waiters/" + username);
+
+            return new ModelAndView(userMap, "waiter.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
         post("/waiters/:username/confirm",(request, response) -> {
 
             UserService userService = new UserService(jdbi);
@@ -159,35 +175,6 @@ public class App {
             response.redirect("/waiters/" + request.params("username"));
 
             return new ModelAndView(waiter, "waiter.handlebars");
-
-        }, new HandlebarsTemplateEngine());
-
-        get("/waiters/:username/update",(request, response) -> {
-            Map<String, Object> userMap = new HashMap<>();
-            String username = request.params("username");
-
-            UserService userService = new UserService(jdbi);
-            User user = userService.getOneUser(username);
-            Shift deleteUserDays = userService.deleteWorkingDays(user.getId());
-
-            userMap.put("user", deleteUserDays);
-
-            response.redirect("/waiters/" + username);
-
-            return new ModelAndView(userMap, "waiter.handlebars");
-
-        }, new HandlebarsTemplateEngine());
-
-        post("/:username/view",(request, response) -> {
-            Map<String, Object> userMap = new HashMap<>();
-            String username = request.params("username");
-
-//            UserService userService = new UserService(jdbi);
-//            User user = userService.getOneUser(username);
-
-            response.redirect( username + "/edit");
-
-            return new ModelAndView(userMap, "view.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
@@ -215,23 +202,13 @@ public class App {
 
         }, new HandlebarsTemplateEngine());
 
-        post("/edit",(request, response) -> {
-
+        post("/:username/view",(request, response) -> {
             Map<String, Object> userMap = new HashMap<>();
             String username = request.params("username");
 
-            UserService userService = new UserService(jdbi);
-            User user = userService.getOneUser(username);
+            response.redirect( username + "/edit");
 
-            List <Day> dayList = userService.dayList(); // all the days
-            List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
-            Shift shiftReject = userService.deleteWorkingDays(user.getId());
-
-            userMap.put("user", shiftReject);
-            userMap.put("userDayList", userDayList);
-            userMap.put("dayList", dayList);
-
-            return new ModelAndView(userMap, "admin.handlebars");
+            return new ModelAndView(userMap, "view.handlebars");
 
         }, new HandlebarsTemplateEngine());
 
@@ -247,6 +224,26 @@ public class App {
             userMap.put("users", shiftReject);
 
             response.redirect("/days");
+
+            return new ModelAndView(userMap, "admin.handlebars");
+
+        }, new HandlebarsTemplateEngine());
+
+        post("/edit",(request, response) -> {
+
+            Map<String, Object> userMap = new HashMap<>();
+            String username = request.params("username");
+
+            UserService userService = new UserService(jdbi);
+            User user = userService.getOneUser(username);
+
+            List <Day> dayList = userService.dayList(); // all the days
+            List <User> userDayList = userService.getDaysByUsername(request.params("username")); // days selected by user
+            Shift shiftReject = userService.deleteWorkingDays(user.getId());
+
+            userMap.put("user", shiftReject);
+            userMap.put("userDayList", userDayList);
+            userMap.put("dayList", dayList);
 
             return new ModelAndView(userMap, "admin.handlebars");
 

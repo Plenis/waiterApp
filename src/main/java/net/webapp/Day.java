@@ -49,7 +49,6 @@ public class Day {
         this.selected = selected;
     }
 
-
     public boolean isWorking() {
         return isWorking;
     }

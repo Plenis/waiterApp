@@ -71,7 +71,6 @@ public class UserService {
         return null;
     }
 
-
     public void addUserDays(Long userId, Long dayId){
         String sql = "Insert into shift (user_id, day_id) VALUES (?, ?)";
 

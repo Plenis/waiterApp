@@ -10,8 +10,6 @@ public class User {
     String username;
     String password;
     List <Day> listOfDays = new ArrayList<>();
-//    String selected;
-
 
     public User() { }
 
