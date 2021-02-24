@@ -54,7 +54,6 @@ public class App {
         get("/", (request, response) -> new ModelAndView(waiter, "login.handlebars"), new HandlebarsTemplateEngine());
 
         get("/register", (request, response) -> {
-
             return  new ModelAndView(waiter, "register.handlebars");
 
         },new HandlebarsTemplateEngine());
@@ -117,6 +116,7 @@ public class App {
             waiter.get(firstname);
             waiter.get(lastname);
             waiter.get(username);
+
             return new ModelAndView(waiterMap, "waiter.handlebars");
 
         }, new HandlebarsTemplateEngine());
@@ -133,8 +133,7 @@ public class App {
 
             response.redirect("/waiters/" + username);
 
-
-            return new ModelAndView(waiter, "waiter.handlebars");
+            return null;
 
         }, new HandlebarsTemplateEngine());
 
@@ -150,7 +149,7 @@ public class App {
 
             response.redirect("/waiters/" + username);
 
-            return new ModelAndView(userMap, "waiter.handlebars");
+            return null;
 
         }, new HandlebarsTemplateEngine());
 
@@ -174,7 +173,7 @@ public class App {
 
             response.redirect("/waiters/" + request.params("username"));
 
-            return new ModelAndView(waiter, "waiter.handlebars");
+            return null;
 
         }, new HandlebarsTemplateEngine());
 
@@ -225,7 +224,7 @@ public class App {
 
             response.redirect("/days");
 
-            return new ModelAndView(userMap, "admin.handlebars");
+            return null;
 
         }, new HandlebarsTemplateEngine());
 
@@ -278,6 +277,7 @@ public class App {
 
             shiftMap.put("dayList", dayList);
             shiftMap.put("userDayList", userDayList);
+
             return new ModelAndView(shiftMap, "admin.handlebars");
 
         }, new HandlebarsTemplateEngine());
@@ -291,7 +291,7 @@ public class App {
 
             response.redirect("/days");
 
-            return new ModelAndView(userMap, "admin.handlebars");
+            return null;
 
         }, new HandlebarsTemplateEngine());
 
@@ -317,9 +317,8 @@ public class App {
             List <User> users = userService.getAllUsers();
 
             System.out.println(users);
-
-//            waiter.get(user);
             usersMap.put("user", users);
+            
             return new ModelAndView(usersMap, "user.handlebars");
         }), new HandlebarsTemplateEngine());
     }

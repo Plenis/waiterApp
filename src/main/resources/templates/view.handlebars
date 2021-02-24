@@ -22,14 +22,14 @@
 
     <script>
 $(document).ready(function(){
-  $("p").click(function(){
+  $('.accept').click(function(){
     alert("Shifts Locked for {{user.username}}!");
   });
 });
 
 $(document).ready(function(){
-  $("a").click(function(){
-    alert("Shifts for {{user.username}} have been Rejected and deleted!");
+  $('.reject').click(function(){
+    alert("Shifts for {{user.username}} have been Rejected!");
   });
 });
     </script>
@@ -61,8 +61,9 @@ $(document).ready(function(){
 
     <br>
     <link>
-    <p><a href="/days"><button type="button" id="button1" class="btn btn-outline-success btn-sm">Accept</button></a></p>
-    <a href="/days"><button type="button" id="button2" class="btn btn-outline-danger btn-sm"> Reject</button></a>
+    <div class="accept"><a href="/days"><button type="button" id="button1" class="btn btn-outline-success btn-sm">Accept</button></a></div>
+    <br>
+   <div class="reject"><a href="/days"><button type="button" id="button2" class="btn btn-outline-danger btn-sm"> Reject</button></a></div>
     </div>
     <br>
 </body>
